@@ -23,7 +23,10 @@ h1,h2,h3,h4,h5,h6{font-weight: normal}
 
 hr{opacity: .1}
 
-a{text-decoration: none}
+a{
+  text-decoration: none;
+  color: inherit;
+}a:hover{text-decoration: underline}
 
 .container-100{
   width: 100%;
@@ -54,6 +57,7 @@ a{text-decoration: none}
 .orange-bg{background-color: var(--orange)}
 
 .black-bg{background-color: var(--black)}
+/*there is a black (#000) bg corresponding to the footer section*/
 /*font color*/
 .black{color: var(--black)}
 
@@ -66,6 +70,8 @@ a{text-decoration: none}
 
 .padding-1rem{padding: 1rem}
 
+.padding-title{padding: 1rem 1.2rem 3rem}
+
 .txt-center{text-align: center}
 
 .big-font{font-size: 1.5rem}
@@ -77,6 +83,7 @@ a{text-decoration: none}
 /*---------------UNIQUE CLASSES*/
 .tag{
   margin: 0 .4rem;
+  text-decoration: none;
   padding: .1rem .3rem;
   border-radius: 5px;
   font-family: 'Segoe UI', Verdana, sans-serif;
@@ -89,10 +96,20 @@ a{text-decoration: none}
 }
 
 .project-item{
-  /*color: var(--black);*/
   transition: all .5s ease;
 }.project-item:hover{
   color: var(--white);
   background-color: var(--black);
+  text-decoration: none;
   font-size: 1.6rem;
 }
+
+.dark-btn{
+  display: block;
+  color: white;
+  border-radius: 5px;
+  border: white 2px solid;
+  transition: background 1s ease;
+  margin: 1.5rem auto .5rem;
+  max-width: 20%;
+}.dark-btn:hover{background-color: black}
