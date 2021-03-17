@@ -21,7 +21,7 @@ body{
 
 h1,h2,h3,h4,h5,h6{font-weight: normal}
 
-hr{opacity: .1}
+option{color: var(--gray)}
 
 a{
   text-decoration: none;
@@ -38,11 +38,17 @@ a{
 /*displays*/
 .block{display: block}
 
-.flex{display: flex}
+.hide{display: none}
+
+.flex{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .flex-col{flex-direction: column}
 
 .flex-between{justify-content: space-between}
+
 /*positions*/
 .relative{position: relative}
 
@@ -70,13 +76,13 @@ a{
 
 .padding-1rem{padding: 1rem}
 
-.padding-title{padding: 1rem 1.2rem 3rem}
+.padding-title{padding: 1rem 1.2rem 3.5rem}
 
 .txt-center{text-align: center}
 
-.big-font{font-size: 1.5rem}
+.big-font{font-size: 1.6rem}
 
-.medium-font{font-size: 1rem}
+.medium-font{font-size: 1.2rem}
 
 .small-font{font-size: .8rem}
 
@@ -113,3 +119,26 @@ a{
   margin: 1.5rem auto .5rem;
   max-width: 20%;
 }.dark-btn:hover{background-color: black}
+
+.light-btn{
+  display: block;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+  border: black 2px solid;
+  transition: background 1s ease;
+  margin: .8rem auto;
+  max-width: 20vw;
+}.light-btn:hover{cursor: pointer}
+
+/*-------------------MEDIA QUERIES*/
+@media (max-width: 600px) {
+  .tag{
+    margin: 0px;
+  }
+
+  .project-date{
+    top: -10px;
+    left: 0px;
+  }
+}

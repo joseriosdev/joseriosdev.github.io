@@ -1,6 +1,9 @@
 let audio = document.getElementById("audio");
+let projectItem = document.querySelectorAll(".project-item");
+audio.volume = .7;
 
+projectItem.forEach(element => element.addEventListener("mouseover", playSfx));
 
-document.querySelector(".project-item").addEventListener("mouseover", function(){
+function playSfx() {
   audio.play();
-});
+}

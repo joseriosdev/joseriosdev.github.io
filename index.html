@@ -11,24 +11,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <audio id="audio" src="roulette-wheel-spin-single.mp3" muted></audio>
+  <audio id="audio">
+    <source src="roulette-wheel-spin-single.mp3"/>
+  </audio>
 
   <main class="container-100">
     <header class="black-bg txt-center padding-title">
       <h1 class="white">The Jose Rios's training camp</h1>
       <!--<a href="#" class="dark-btn padding-1rem">Go to main site</a>-->
     </header>
-    <section class="medium-font flex flex-between black padding-1rem" style="background-color: white;">
+    <section class="flex flex-between black padding-1rem" style="background-color: white;">
+      <div></div>
       <div>
-        A filter will be added soon
-      </div>
-      <div>
-        filter
+        <select name="filter-items" id="filter" class="light-btn medium-font">
+          <option value="all">all</option>
+          <option value="css">css</option>
+          <option value="js">javascript</option>
+          <!--<option value="sass">sass</option>
+          <option value="react">react native</option>
+          <option value="git">collaborative</option>-->
+        </select>
       </div>
     </section>
     <ol class="big-font">
       <!--Single Price-->
-      <a href="projects/single-price/single-price.html" class="block project-item black">
+      <a href="projects/single-price/single-price.html" class="css project-item black block">
         <li class="padding-1rem flex flex-between">
           <div class="relative">Single Price<span class="project-date gray absolute small-font">Mar. 10 2021</span></div>
           <div>
@@ -38,7 +45,7 @@
         </li>
       </a>
       <!--HackerRank Challenges-->
-      <a href="https://joseriosdev.github.io/hackerrank-JS-gold-badge-projs/" class="block project-item black">
+      <a href="https://joseriosdev.github.io/hackerrank-JS-gold-badge-projs/" class="js project-item black block">
         <li class="padding-1rem flex flex-between">
           <div class="relative">HackerRank Challenges<span class="project-date gray absolute small-font">Feb. 26 2021</span></div>
           <div>
@@ -49,7 +56,7 @@
         </li>
       </a>
       <!--Jhon Doe Blog-->
-      <a href="https://joseriosdev.github.io/john-doe-blog/" class="block project-item black">
+      <a href="https://joseriosdev.github.io/john-doe-blog/" class="css project-item black block">
         <li class="padding-1rem flex flex-between">
           <div class="relative">John Doe Blog<span class="project-date gray absolute small-font">Nov. 24 2020</span></div>
           <div>
@@ -59,7 +66,7 @@
         </li>
       </a>
       <!--Testimonial Grid-->
-      <a href="projects/testimonials-grid-section/testimonial-grid.html" class="block project-item black">
+      <a href="projects/testimonials-grid-section/testimonial-grid.html" class="css project-item black block">
         <li class="padding-1rem flex flex-between">
           <div class="relative">Testimonial Grid<span class="project-date gray absolute small-font">Nov. 21 2020</span></div>
           <div>
@@ -69,7 +76,7 @@
         </li>
       </a>
       <!--1 Hora Dibujando-->
-      <a href="https://1horadibujando.netlify.app/" class="block project-item black">
+      <a href="https://1horadibujando.netlify.app/" class="css project-item black block">
         <li class="padding-1rem flex flex-between">
           <div class="relative">1 Hora Dibujando Website<span class="project-date gray absolute small-font">Aug. 21 2020</span></div>
           <div>
@@ -84,11 +91,12 @@
         &copy; 2021 Jose Rios<br>All rights reserved
       </div>
       <div>
-        <a href="https://github.com/joseriosdev">Github</a><br><a href="https://twitter.com/joseriosdev">Twitter</a>
+        <a href="https://github.com/joseriosdev/joseriosdev.github.io">Github</a><br><a href="https://twitter.com/joseriosdev">Twitter</a>
       </div>
     </footer>
   </main>
 
   <script src="audio-script.js" type="text/javascript"></script>
+  <script src="filter.js" type="text/javascript"></script>
 </body>
 </html>
