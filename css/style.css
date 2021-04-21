@@ -28,6 +28,17 @@ a{
   color: inherit;
 }a:hover{text-decoration: underline}
 
+::-webkit-scrollbar {
+  width: 9px !important;
+}::-webkit-scrollbar-track {
+  background: transparent !important;
+}::-webkit-scrollbar-thumb {
+  background: #b0b0cc !important;
+  border-radius: 20px;
+}::-webkit-scrollbar-thumb:hover {
+  background: #111 !important;
+}
+
 .container-100{
   width: 100%;
   height: 100%;
@@ -62,7 +73,11 @@ a{
 
 .orange-bg{background-color: var(--orange)}
 
-.black-bg{background-color: var(--black)}
+.dark-bg{background-color: var(--black)}
+
+.white-bg{background-color: #fff}
+
+.black-bg{background-color: #000}
 /*there is a black (#000) bg corresponding to the footer section*/
 /*font color*/
 .black{color: var(--black)}
@@ -73,6 +88,7 @@ a{
 
 
 /*---------------OTHER CLASSES*/
+.padding-05rem{padding: .5rem}
 
 .padding-1rem{padding: 1rem}
 
@@ -120,16 +136,22 @@ a{
   max-width: 20%;
 }.dark-btn:hover{background-color: black}
 
-.light-btn{
+.filter-btn{
   display: block;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
   border-radius: 5px;
   border: black 2px solid;
-  transition: background 1s ease;
-  margin: .8rem auto;
-  max-width: 20vw;
-}.light-btn:hover{cursor: pointer}
+  margin: .5rem auto;
+  width: 180px;
+  cursor: pointer;
+  border: solid 1px var(--black);
+  outline: none;
+}.filter-btn:focus{
+  opacity: .5;
+  outline: none;
+}
 
 /*-------------------MEDIA QUERIES*/
 @media (max-width: 600px) {
