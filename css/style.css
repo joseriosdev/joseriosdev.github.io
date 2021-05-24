@@ -69,6 +69,8 @@ a{
 /*bgs*/
 .blue-bg{background-color: var(--blue)}
 
+.pink-bg{background-color: #eb347d}
+
 .green-bg{background-color: var(--green)}
 
 .orange-bg{background-color: var(--orange)}
