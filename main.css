@@ -1,0 +1,30 @@
+:root {
+  --A4-w: 794px;
+  --A4-h: 1123px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: lightgray;
+  font-size: 12pt;
+}
+
+main {
+  width: var(--A4-w);
+  height: var(--A4-h);
+  margin: 0 auto;
+  padding: 1cm;
+  background-color: white;
+}
+
+@media print {
+  @page {
+    size: A4 portrait; /* Suggest A4 paper in portrait orientation */
+    margin: 0mm;       /* Set consistent margins */
+  }
+}
