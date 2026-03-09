@@ -1,6 +1,12 @@
 :root {
-  --A4-w: 794px;
-  --A4-h: 1123px;
+  --paper-w: 215.9mm; /*A4 210mm;*/
+  --paper-h: 279.4mm; /*A4 297mm;*/
+  --paper-padding: 1cm;
+  --font-main: 'Crimson Pro', 'Times New Roman', Georgia, serif;
+  --font-main-size: 12pt;
+  --font-title: Georgia, serif;
+  --standard-margin: .8rem;
+  --blue: #499fff;
 }
 
 * {
@@ -10,21 +16,16 @@
 }
 
 body {
-  background-color: lightgray;
-  font-size: 12pt;
-}
-
-main {
-  width: var(--A4-w);
-  height: var(--A4-h);
-  margin: 0 auto;
-  padding: 1cm;
-  background-color: white;
+  background: linear-gradient(0deg, black 0%, #1d1129 25%, #20293a 50%, #404855 75%, #49515e 100%);
 }
 
 @media print {
+  fab-menu {
+    display: none;
+  }
+
   @page {
-    size: A4 portrait; /* Suggest A4 paper in portrait orientation */
-    margin: 0mm;       /* Set consistent margins */
+    size: letter portrait;
+    margin: 0mm;
   }
 }

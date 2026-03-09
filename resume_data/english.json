@@ -1,0 +1,74 @@
+{
+  "lang": "en",
+  "basics": {
+    "name": "Jose Rios",
+    "title": "Mid Web Developer",
+    "email": "joseriosdev@gmail.com",
+    "phone": "+57 ???",
+    "summary": "+4 Years of experience as Software Developer where I'm blessed with the opportunity to work mainly with .NET (C#), Salesforce, and JavaScript. Here, I have gained experience in various aspects of the SDLC as frontend and backend. I love taking care of the business as I can by creating solutions and clear documentation to share the knowledge with my team mates.",
+    "location": { "city": "Barranquilla", "country": "Colombia" },
+    "profiles": {
+      "github": "https://github.com/joseriosdev",
+      "linkedin": "https://www.linkedin.com/in/joseriosdev"
+    }
+  },
+  "skills": [
+    {
+      "category": "Languages",
+      "keywords": ["C#", "JavaScript", "HTML/CSS", "SQL", "Apex"]
+    },
+    {
+      "category": "Frameworks",
+      "keywords": [".NET", "React", "Web Components", "SASS"]
+    },
+    {
+      "category": "Developer Tools",
+      "keywords": ["Git", "GitHub/Azure/GitLab", "SQL Server", "MongoDB", "Visual Studio", "VS Code", "Unity"]
+    },
+    {
+      "category": "Libraries & More",
+      "keywords": ["MS Graph", "Bootstrap", "REST APIs", "GraphQL", "EDI Parsing", "MongoDB"]
+    }
+  ],
+  "work": [
+    {
+      "company": "Jalasoft",
+      "position": "Staff Engineer",
+      "location": "Remote",
+      "start_date": "Nov. 3rd 2021",
+      "end_date": "Present",
+      "highlights": [
+        "Architected a custom Web Component library for internal ERP dashboards",
+        "Reduced EDI import error rates by 30% using automated staging table validation",
+        "Optimized SQL Server query performance for high-volume receipt processing",
+        "The XYZ formula is a simple way to show your impact on a resume by spelling out what you achieved (X), how you measured it (Y), and what actions you took (Z)",
+        "accomplished________through________using________"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Frontend Mentor Challenges",
+      "description": "Completed frontend challenges built with several Libraries.",
+      "url": "https://front-challenges-jdr.netlify.app/",
+      "start_date": "March 2021",
+      "end_date": "Present",
+      "highlights": [
+        "Personal playground to experiment with Frontend technologies",
+        "There are projects used for knowledge sharing",
+        "Proposed collaborative work with other Devs to sharpedn soft skills"
+      ],
+      "tech_stack": ["Git", "React", "Web Components", "REST APIs"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Jala Foundation",
+      "title": "Salesforce Development",
+      "type": "Bootcamp",
+      "location": "Remote",
+      "start_date": "June 2021",
+      "end_date": "October 2021"
+    }
+  ]
+}

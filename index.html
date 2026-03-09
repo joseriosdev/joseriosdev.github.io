@@ -7,105 +7,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="keywords" content="Jose Rios, Jose Daniel Rios, Jose Daniel Rios Moreno, Portafolio, Portfolio, front-end developer, back-end developer, videogames">
   <meta name="robots" content="index,follow">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob:; frame-src *; style-src * 'unsafe-inline';">
 
-  <title>Jose Rios - Resume / CV</title>
+
+  <title>Jose Rios - Resume</title>
 
   <link rel="shortcut icon" href="./img/me.ico" type="image/x-icon">
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="./main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200;0,600;1,200;1,600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <main>
-    <header>
-      <h1>Jose Rios</h1>
-      <p>Mid Software Developer</p>
-      <p>
-        123-123-1234 | 
-        <a href="#" target="_blank" title="send email to Jose Rios">
-          joseriosdev@gmail.com
-        </a> | 
-        <a href="https://www.linkedin.com/in/joseriosdev/" target="_blank" title="open joseriosdev's linkedin">
-          <i class="fa fa-linkedin-square"></i>/joseriosdev
-        </a> | 
-        <a href="https://github.com/joseriosdev/" target="_blank" title="open joseriosdev's github">
-          <i class="fa fa-github"></i>/joseriosdev
-        </a>
-      </p>
-    </header>
-
-    <section>
-      <p>
-        stuff about me
-      </p>
-    </section>
-
-    <section>
-      <h2>Experience</h2>
-      <article>
-        <header>
-          <div>
-            <h3>Staff Engineer</h3>
-            <p>Nov. 2021 - Present</p>
-          </div>
-          <div>
-            <h4><em>Jalasoft</em></h4>
-            <p><em>Remote</em></p>
-          </div>
-        </header>
-        <ul>
-          <li>
-            The XYZ formula is a simple way to show your impact on a resume by spelling out what you achieved (X), how you measured it (Y), and what actions you took (Z)
-          </li>
-          <li>
-            accomplished________through________using________
-          </li>
-        </ul>
-      </article>
-    </section>
-
-    <section>
-      <h2>Projects</h2>
-      <article>
-        <header>
-          <div>
-            <h3>Frontend Mentor Challenges | <em>HTML/CSS, JavaScript, React, Vue</em></h3>
-          </div>
-          <div>
-            <p>Nov. 2021 - Present</p>
-          </div>
-        </header>
-        <ul>
-          <li>
-            Did that and that
-          </li>
-        </ul>
-      </article>
-    </section>
-
-    <section>
-      <h2>Technical Skills</h2>
-      <article>
-        <p><strong>Languages:</strong> C#, JavaScript, HTML/CSS, SQL</p>
-        <p><strong>Frameworks:</strong> React, .NET, Web Components</p>
-        <p><strong>Developer Tools:</strong> Git</p>
-        <p><strong>Libraries:</strong> MS Graph</p>
-      </article>
-    </section>
-
-    <section>
-      <h2>Education</h2>
-      <article>
-        <header>
-          <h3>SENA</h3>
-          <p>Bogota</p>
-        </header>
-        <footer>
-          <h4><em>Desarrollo de Videojuegos</em></h4>
-          <p><em>Ago. 2018 - May. 2020</em></p>
-        </footer>
-      </article>
-    </section>
-  </main>
+  
+<!--
+<smart-profile-tooltip 
+  name="Luna" 
+  message="I'll follow your mouse and stay on screen!" 
+  avatar="https://api.dicebear.com/7.x/avataaars/svg?seed=Luna">
+  <button>Hover me for magic</button>
+</smart-profile-tooltip>
+-->
+<!-- <simple-resume resume-lang="en"></simple-resume> -->
+<fab-menu></fab-menu>
+<script type="module" src="./js/constantKeys.js"></script>
+<script type="module" src="./js/main.js"></script>
+<script type="module" src="./js/cmp_floatingMenu.js"></script>
+<script type="module" src="./js/cmp_dialogBubble.js"></script>
+<script type="module" src="./js/cmp_resume.js"></script>
 </body>
 </html>
