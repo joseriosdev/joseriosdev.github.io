@@ -1,3 +1,5 @@
+import KEYS from './constantKeys.js';
+
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(`
   * {
@@ -68,9 +70,13 @@ class SimpleResume extends HTMLElement
       <main>
         <section id="main-header">
         <dialog-bubble
-          title="Hey," 
+          title="Hello there," 
           avatar="../img/profile_pic.jpg" 
-          messages='["First message here", "Second helpful tip", "Last piece of info"]'>
+          messages='[
+            "Hope everything is going well :)",
+            "This site was coded with Web Components and will have a hiddin game at some point.",
+            "Did you know that a man said: <I am the life>? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?"
+          ]'>
           <h1 id="name"></h1>
         </dialog-bubble>
           
@@ -93,7 +99,7 @@ class SimpleResume extends HTMLElement
 
   connectedCallback()
   {
-    const jsonFileName = this.getAttribute('resume-lang') === 'es' ? 'spanish': 'english';
+    const jsonFileName = this.getAttribute('resume-lang') === KEYS.LANG_SPANISH ? 'spanish': 'english';
     fetch(`../resume_data/${jsonFileName}.json`)
       .then(response => response.json())
       .then(data => this.render(data))
@@ -102,7 +108,7 @@ class SimpleResume extends HTMLElement
 
   render(data)
   {
-    const isSpanish = data.lang === 'es';
+    const isSpanish = data.lang === KEYS.LANG_SPANISH;
     this.renderHeader(data.basics);
     this.renderExperience(data.work, isSpanish);
     this.renderProjects(data.projects, isSpanish);
@@ -148,7 +154,6 @@ class SimpleResume extends HTMLElement
       const jobPeriod = document.createElement('p');
       const company = document.createElement('h4');
       const location = document.createElement('p');
-      const techStack = document.createElement('em');
       const ul = document.createElement('ul');
 
       item1.classList.add('flex-btwn');

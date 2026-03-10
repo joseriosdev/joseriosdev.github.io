@@ -1,5 +1,7 @@
-class DialogBubbleTooltip extends HTMLElement {
-  constructor() {
+class DialogBubbleTooltip extends HTMLElement
+{
+  constructor()
+  {
     super();
     this.attachShadow({ mode: 'open' });
     // Internal state
@@ -12,11 +14,13 @@ class DialogBubbleTooltip extends HTMLElement {
     const avatar = this.getAttribute('avatar') || 'https://i.pravatar.cc/100';
     const title = this.getAttribute('title') || 'Assistant';
     
-    // Parse the messages array from an attribute
-    try {
+    try
+    {
       const rawMessages = this.getAttribute('messages');
       this.messages = rawMessages ? JSON.parse(rawMessages) : ["No messages found."];
-    } catch (e) {
+    } 
+    catch (e)
+    {
       this.messages = [this.getAttribute('message') || 'Hello!'];
     }
 
@@ -25,6 +29,7 @@ class DialogBubbleTooltip extends HTMLElement {
         :host {
           position: relative;
           display: inline-block;
+          --bubble-bg: rgba(23, 12, 34, 0.85);
         }
 
         .bubble {
@@ -34,8 +39,10 @@ class DialogBubbleTooltip extends HTMLElement {
           bottom: -400%;
           left: 50%;
           transform: translateX(-50%) translateY(10px);
-          width: 250px;
-          background: #1d1129;
+          width: 350px;
+          background: var(--bubble-bg);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px);
           border-radius: 15px;
           padding: 12px;
           box-shadow: 0 10px 25px rgba(0,0,0,0.3);
@@ -50,12 +57,12 @@ class DialogBubbleTooltip extends HTMLElement {
         .bubble::after {
           content: '';
           position: absolute;
-          bottom: 10%;
+          bottom: 100%;
           left: 50%;
           margin-left: -8px;
           border-width: 8px;
           border-style: solid;
-          border-color: transparent transparent #505967 transparent;
+          border-color: transparent transparent var(--bubble-bg) transparent;
         }
 
         .avatar {
@@ -92,7 +99,7 @@ class DialogBubbleTooltip extends HTMLElement {
           display: flex;
           justify-content: space-between;
           margin-top: 8px;
-          border-top: 1px solid #444;
+          border-top: 1px solid #777;
           padding-top: 5px;
         }
 
@@ -111,7 +118,7 @@ class DialogBubbleTooltip extends HTMLElement {
         button:disabled { color: #555; cursor: not-allowed; }
 
         .counter {
-          color: #888;
+          color: #ddd;
           font-size: 10px;
           align-self: center;
         }
@@ -145,16 +152,19 @@ class DialogBubbleTooltip extends HTMLElement {
     this.shadowRoot.getElementById('next').addEventListener('click', () => this.navigate(1));
   }
 
-  navigate(direction) {
+  navigate(direction)
+  {
     const newIndex = this.currentIndex + direction;
     
-    if (newIndex >= 0 && newIndex < this.messages.length) {
+    if (newIndex >= 0 && newIndex < this.messages.length)
+    {
       this.currentIndex = newIndex;
       this.updateUI();
     }
   }
 
-  updateUI() {
+  updateUI()
+  {
     const textEl = this.shadowRoot.getElementById('msg-text');
     const counterEl = this.shadowRoot.getElementById('counter');
     const prevBtn = this.shadowRoot.getElementById('prev');

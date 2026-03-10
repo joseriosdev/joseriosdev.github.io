@@ -9,22 +9,25 @@ function router()
 	let langValue = params.get(KEYS.URL_LANG);
   const body = document.querySelector('body');
   const resume = document.createElement('simple-resume');
+  const menuBtn = document.createElement('fab-menu');
   let lang = '';
 
 	if(langValue)
   {
 		langValue = langValue.toLowerCase();
-    lang = langValue === 'es' ? 'es' : 'en';
+    lang = langValue === KEYS.LANG_SPANISH ? KEYS.LANG_SPANISH : KEYS.LANG_DEFAULT;
     resume.setAttribute('resume-lang', lang);
 	}
   else
   {
     lang = 'en';
     resume.setAttribute('resume-lang', lang);
+    menuBtn.setAttribute('menu-lang', lang);
   }
   
+  menuBtn.setMenuLanguage(lang);
   localStorage.setItem(KEYS.CURRENT_LANG, lang);
-  body.appendChild(resume);
+  body.append(resume, menuBtn);
 }
 /**
  * 

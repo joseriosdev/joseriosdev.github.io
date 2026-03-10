@@ -8,41 +8,6 @@ class FloatingMenu extends HTMLElement
     super();
     this.attachShadow({ mode: 'open' });
     this.isOpen = false;
-  }
-
-  connectedCallback()
-  {
-    this.render();
-  }
-
-  toggleMenu()
-  {
-    this.isOpen = !this.isOpen;
-    const menu = this.shadowRoot.querySelector('.menu-items');
-    const mainBtn = this.shadowRoot.querySelector('.main-btn');
-    
-    if (this.isOpen)
-    {
-      menu.classList.add('open');
-      mainBtn.classList.add('active');
-    } else
-    {
-      menu.classList.remove('open');
-      mainBtn.classList.remove('active');
-    }
-  }
-
-  toggleLanguage()
-  {
-    const currentUrl = new URL(window.location.href);
-    const newLang = localStorage.getItem(KEYS.CURRENT_LANG) === 'es' ? 'en' : 'es'
-    currentUrl.searchParams.set(KEYS.URL_LANG, newLang);
-    window.location.assign(currentUrl.href);
-    localStorage.setItem(KEYS.CURRENT_LANG, newLang);
-  }
-
-  render()
-  {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
@@ -62,7 +27,7 @@ class FloatingMenu extends HTMLElement
         }
 
         /* Main Toggle Button */
-        .main-btn {
+        .menu-btn {
           width: 60px;
           height: 60px;
           border-radius: 50%;
@@ -77,7 +42,7 @@ class FloatingMenu extends HTMLElement
           transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
         }
 
-        .main-btn.active {
+        .menu-btn.active {
           transform: rotate(45deg);
           background: #b00020;
         }
@@ -149,23 +114,82 @@ class FloatingMenu extends HTMLElement
       </style>
 
       <div class="menu-container">
-        <button class="main-btn" id="toggle">
+        <button class="menu-btn">
           <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         </button>
 
         <div class="menu-items">
-          <button class="sub-btn" data-label="Save as PDF" id="save-pdf-btn">📁</button>
-          <button class="sub-btn" data-label="Spanish" id="lang-change-btn">🇪🇸</button>
+          <button class="sub-btn"
+            data-label=""
+            id="save-pdf-btn"
+            label-lang-es="Guardar como PDF"
+            label-lang-en="Save as PDF">📁</button>
+          <button class="sub-btn"
+            data-label=""
+            id="lang-change-btn"
+            label-lang-es="Inglés"
+            label-lang-en="Spanish"
+            content-lang-es="🇬🇧"
+            content-lang-en="🇪🇸"></button>
           <!--<button class="sub-btn" data-label="Pretty">✨</button>-->
           <!--<button class="sub-btn" data-label="Contact Me">⌯⌲</button>-->
         </div>
       </div>
     `;
+  }
 
-    this.shadowRoot.getElementById('toggle').onclick = () => this.toggleMenu();
+  connectedCallback()
+  {
+    this.shadowRoot.querySelector('.menu-btn').onclick = () => this.toggleMenu();
     this.shadowRoot.getElementById('save-pdf-btn').onclick = () => window.print();
     this.shadowRoot.getElementById('lang-change-btn').onclick = () => this.toggleLanguage();
+  }
+
+  toggleMenu()
+  {
+    this.isOpen = !this.isOpen;
+    const menu = this.shadowRoot.querySelector('.menu-items');
+    const mainBtn = this.shadowRoot.querySelector('.menu-btn');
     
+    if (this.isOpen)
+    {
+      menu.classList.add('open');
+      mainBtn.classList.add('active');
+    } else
+    {
+      menu.classList.remove('open');
+      mainBtn.classList.remove('active');
+    }
+  }
+
+  toggleLanguage()
+  {
+    // Resume language
+    const currentUrl = new URL(window.location.href);
+    const newLang = localStorage.getItem(KEYS.CURRENT_LANG) === KEYS.LANG_SPANISH ? KEYS.LANG_DEFAULT : KEYS.LANG_SPANISH
+    currentUrl.searchParams.set(KEYS.URL_LANG, newLang);
+    window.location.replace(currentUrl.href);
+    localStorage.setItem(KEYS.CURRENT_LANG, newLang);
+    
+    // Menu language
+    const opposiveLang = { en: KEYS.LANG_SPANISH, es: KEYS.LANG_DEFAULT };
+    const langToSet = opposiveLang[this.getAttribute('menu-lang')];
+    this.setMenuLanguage(langToSet);
+  }
+
+  setMenuLanguage(lang)
+  {
+    if (lang !== KEYS.LANG_SPANISH && lang !== KEYS.LANG_DEFAULT) lang = KEYS.LANG_DEFAULT;
+
+    const subBtns = this.shadowRoot.querySelectorAll('.sub-btn');
+    subBtns.forEach(btn =>
+    {
+      const label = btn.getAttribute('label-lang-' + lang);
+      const content = btn.getAttribute('content-lang-' + lang);
+      btn.setAttribute('data-label', label);
+
+      if(content) btn.textContent = content;
+    });
   }
 }
 
