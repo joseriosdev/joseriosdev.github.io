@@ -1,0 +1,11 @@
+@keyframes nequi {
+  0% {
+    box-shadow: 5px 5px 10px rgba(20,0,0, .7), -5px -5px 10px rgba(20,0,0, .7);
+  }
+  50% {
+    box-shadow: 12px 12px 25px rgba(60,0,0, .7), -12px -12px 25px rgba(60,0,0, .7);
+  }
+  100% {
+    box-shadow: 5px 5px 10px rgba(20,0,0, .7), -5px -5px 10px rgba(20,0,0, .7);
+  }
+}

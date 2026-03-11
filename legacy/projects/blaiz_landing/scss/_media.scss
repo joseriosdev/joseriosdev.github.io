@@ -1,0 +1,59 @@
+@media (min-width: 500px) {
+  .dj-fayah-bg {
+    left: 100%;
+    width: 25vw;
+    transform: translateX(-100%);
+  }
+
+  .dj-fayah-bg-2 {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25vw;
+    transform: rotateY(180deg);
+    z-index: -1;
+  }
+
+  .header {
+    width: inherit;
+
+    figure {
+      .header-sponsors {
+        width: 33%;
+      }
+      .header-banner {
+        width: 33%;
+      }
+    }
+  }
+
+  .more-more {
+    padding: 3rem 1.5rem;
+    margin-bottom: 9rem;
+
+    figure {
+      grid-template-columns: repeat(3, 1fr);
+
+      .mas-img {
+        grid-column: 1 / 4;
+        width: 20%;
+      }
+      .dancehall-img {
+        grid-column: 1 / 4;
+        width: 50%;
+      }
+    }
+  }
+
+  .event {
+    &__info {
+      font-size: 1.8rem;
+
+      & > img {
+        width: 25%;
+        top: -150px;
+      }
+    }
+  }
+}

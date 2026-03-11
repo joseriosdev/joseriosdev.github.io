@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <title>Weather App</title>
+  </head>
+
+
+  <body class="bg-white">
+    <header class="bg-secondary bg-gradient container-fluid p-2">
+      <h5 class="text-center text-light">2 API Projects</h5>
+      <a href="https://joseriosdev.github.io/2api-projects" class="btn btn-danger d-block mx-auto" style="width: 320px;">Open other project</a>
+    </header>
+
+    <main id="main" class="container-fluid">
+      <section class="row">
+        <div class="col-md-6 col-sm-12 mx-auto text-center bg-dark mt-2 p-5 rounded shadow">
+          <h1 id="w-location" class="text-info"></h1>
+          <h3 id="w-main"></h3>
+          <h3 id="w-description"></h3>
+          <ul id="w-details" class="list-group mt-3">
+            <li class="list-group-item bg-light" id="w-humidity"></li>
+            <li class="list-group-item bg-light" id="w-pressure"></li>
+            <li class="list-group-item bg-light" id="w-wind"></li>
+          </ul>
+          <hr>
+          <!-- Modal Trigger -->
+          <button type="button" class="btn btn-info bg-gradient" data-bs-toggle="modal" data-bs-target="#locModal">
+            Change Location
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="locModal" tabindex="-1" aria-labelledby="locModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="locModalLabel">Choose Location</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="modal-form">
+              <div class="form-group">
+                <label for="city">City&ThickSpace;<em class="text-muted"> :)</em></label>
+                <input type="text" id="city" class="form-control" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="w-change-btn" data-bs-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+    <script src="scripts/w-storage.js"></script>
+    <script src="scripts/w-ui.js"></script>
+    <script src="scripts/weather.js"></script>
+    <script src="scripts/weather-app.js"></script>
+  </body>
+</html>

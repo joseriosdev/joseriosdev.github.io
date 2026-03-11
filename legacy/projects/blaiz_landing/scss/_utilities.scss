@@ -1,0 +1,18 @@
+.text-muted {
+  color: gray !important;
+  text-decoration: line-through !important;
+}
+
+.current-stage {
+  padding: .5rem;
+  width: 95%;
+  font-size: 1.2rem;
+  background-color: $soft-red;
+  border-left: solid 3px $red;
+}
+
+.container {
+  max-width: $max-width;
+  min-width: $min-width;
+  margin: 0 auto;
+}
