@@ -4,6 +4,8 @@ class DialogBubbleTooltip extends HTMLElement
   {
     super();
     this.attachShadow({ mode: 'open' });
+    this.audioClick = new Audio('../legacy/assets/roulette-wheel-spin-single.mp3');
+    this.audioClick.load();
     // Internal state
     this.currentIndex = 0;
     this.messages = [];
@@ -39,7 +41,7 @@ class DialogBubbleTooltip extends HTMLElement
           bottom: -400%;
           left: 50%;
           transform: translateX(-50%) translateY(10px);
-          width: 350px;
+          width: 300px;
           background: var(--bubble-bg);
           backdrop-filter: blur(2px);
           -webkit-backdrop-filter: blur(2px);
@@ -50,7 +52,7 @@ class DialogBubbleTooltip extends HTMLElement
           align-items: center;
           gap: 12px;
           transition: all 0.3s ease;
-          z-index: 3;
+          z-index: 1;
           border: 1px solid #444;
         }
 
@@ -154,6 +156,7 @@ class DialogBubbleTooltip extends HTMLElement
 
   navigate(direction)
   {
+    this.audioClick.play();
     const newIndex = this.currentIndex + direction;
     
     if (newIndex >= 0 && newIndex < this.messages.length)

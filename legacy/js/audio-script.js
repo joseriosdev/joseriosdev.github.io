@@ -1,5 +1,6 @@
 let audio = document.getElementById("audio");
-let projectItem = document.querySelectorAll(".project-item");
+audio.addEventListener('canplaythrough', () => { console.log("audio can be played") }, { once: true });
 audio.volume = .7;
-
-projectItem.forEach(element => element.addEventListener("mouseover", () => audio.play()));
+let projects = document.querySelectorAll(".project-item");
+window.addEventListener('click', () => { audio.play() }, { once: true });
+projects.forEach(proj => proj.addEventListener("mouseover", () => audio.play()));

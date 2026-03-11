@@ -65,13 +65,14 @@ class SimpleResume extends HTMLElement
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.adoptedStyleSheets = [sheet];
+    this.isSanish = false;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <main>
         <section id="main-header">
         <dialog-bubble
           title="Hello there," 
-          avatar="../img/profile_pic.jpg" 
+          avatar="../media/profile_pic.jpg" 
           messages='[
             "Hope everything is going well :)",
             "This site was coded with Web Components and will have a hiddin game at some point.",
@@ -83,7 +84,7 @@ class SimpleResume extends HTMLElement
           <p id="title"></p>
           <p>
             <span id="location"></span> | 
-            <a href="#" target="_blank" title="send email to " id="email"></a> | 
+            <a href="#" target="_blank" id="email"></a> | 
             <a href="#" target="_blank" id="linkedin"><i class="fa fa-linkedin-square"></i></a> | 
             <a href="#" target="_blank" id="github"><i class="fa fa-github"></i></a>
           </p>
@@ -99,7 +100,8 @@ class SimpleResume extends HTMLElement
 
   connectedCallback()
   {
-    const jsonFileName = this.getAttribute('resume-lang') === KEYS.LANG_SPANISH ? 'spanish': 'english';
+    this.isSpanish = this.getAttribute('resume-lang') === KEYS.LANG_SPANISH;
+    const jsonFileName = this.isSpanish ? 'spanish': 'english';
     fetch(`../resume_data/${jsonFileName}.json`)
       .then(response => response.json())
       .then(data => this.render(data))
@@ -124,25 +126,28 @@ class SimpleResume extends HTMLElement
     const emailElmt = this.shadowRoot.getElementById('email');
     emailElmt.textContent = basics.email;
     emailElmt.href = 'mailto:' + basics.email;
-    emailElmt.title += basics.name;
+    emailElmt.title = this.isSpanish ? `Enviar email a ${basics.name}` : `Send email to ${basics.name}`;
 
     const linkedinUser = document.createTextNode('/' + basics.profiles.linkedin.split('/').pop());
     const linkedinElmt = this.shadowRoot.getElementById('linkedin');
     linkedinElmt.href = basics.profiles.linkedin;
     linkedinElmt.appendChild(linkedinUser);
-    linkedinElmt.title = `Open ${basics.name}'s LinkedIn`;
+    linkedinElmt.title = this.isSpanish ? `Abrir LinkedIn de ${basics.name}` : `Open ${basics.name}'s LinkedIn`;
 
     const githubUser = document.createTextNode('/' + basics.profiles.github.split('/').pop());
     const githubElmt = this.shadowRoot.getElementById('github');
     githubElmt.href = basics.profiles.github;
     githubElmt.appendChild(githubUser);
-    githubElmt.title = `Open ${basics.name}'s GitHub`;
+    githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
   }
 
   renderExperience(jobs, isSpanish)
   {
     const sectionElmt = this.shadowRoot.getElementById('experience');
-    sectionElmt.innerHTML = isSpanish ? '<h2><span>E</span>XPERIENCIA</h2>' : '<h2><span>E</span>XPERIENCE</h2>';
+    sectionElmt.innerHTML = isSpanish
+      ? '<h2 title="+4 años"><span>E</span>XPERIENCIA</h2>'
+      : '<h2 title="+4 years"><span>E</span>XPERIENCE</h2>'
+    ;
 
     jobs.forEach(job =>
     {
@@ -213,7 +218,10 @@ class SimpleResume extends HTMLElement
   renderSkills(skills, isSpanish)
   {
     const sectionElmt = this.shadowRoot.getElementById('skills');
-    sectionElmt.innerHTML = isSpanish ? '<h2><span>H</span>ABILIDADES <span>T</span>ÉCNICAS</h2>' : '<h2><span>T</span>ECHNICAL <span>S</span>KILLS</h2>';
+    sectionElmt.innerHTML = isSpanish
+      ? '<h2 title="Desarrollador FullStack"><span>H</span>ABILIDADES <span>T</span>ÉCNICAS</h2>'
+      : '<h2 title="FullStack Dev"><span>T</span>ECHNICAL <span>S</span>KILLS</h2>'
+    ;
     const article = document.createElement('article');
 
     skills.forEach(skill =>

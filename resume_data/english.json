@@ -19,7 +19,7 @@
     },
     {
       "category": "Frameworks",
-      "keywords": [".NET", "React", "Web Components", "SASS"]
+      "keywords": [".NET", "React", "Web Components", "SASS", "Salesforce"]
     },
     {
       "category": "Developer Tools",
@@ -27,7 +27,7 @@
     },
     {
       "category": "Libraries & More",
-      "keywords": ["MS Graph", "Bootstrap", "REST APIs", "GraphQL", "EDI Parsing", "MongoDB"]
+      "keywords": ["MS Graph", "Bootstrap", "REST APIs", "GraphQL", "EDI Parsing", "MongoDB", "Design Principles", "Design Patterns", "ERP", "CRM"]
     }
   ],
   "work": [
@@ -42,7 +42,7 @@
         "Reduced EDI import error rates by 30% using automated staging table validation",
         "Optimized SQL Server query performance for high-volume receipt processing",
         "The XYZ formula is a simple way to show your impact on a resume by spelling out what you achieved (X), how you measured it (Y), and what actions you took (Z)",
-        "accomplished________through________using________"
+        "accomplished________ through________ using________"
       ]
     }
   ],

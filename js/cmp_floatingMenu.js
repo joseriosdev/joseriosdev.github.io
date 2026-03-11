@@ -8,6 +8,9 @@ class FloatingMenu extends HTMLElement
     super();
     this.attachShadow({ mode: 'open' });
     this.isOpen = false;
+    this.audioClick = new Audio('../media/btn-click.mp3');
+    this.audioClick.load();
+
     this.shadowRoot.innerHTML = `
       <style>
         :host {
@@ -15,7 +18,10 @@ class FloatingMenu extends HTMLElement
           bottom: 30px;
           right: 30px;
           font-family: 'Segoe UI', Roboto, sans-serif;
-          z-index: 9999;
+          z-index: 2;
+          --btn-size: 45px;
+          --btns-gap: 10px;
+          --btn-size-diff: 10px;
         }
 
         /* Container for vertical buttons */
@@ -23,13 +29,13 @@ class FloatingMenu extends HTMLElement
           display: flex;
           flex-direction: column-reverse;
           align-items: center;
-          gap: 15px;
+          gap: var(--btns-gap);
         }
 
         /* Main Toggle Button */
         .menu-btn {
-          width: 60px;
-          height: 60px;
+          width: calc(var(--btn-size) + var(--btn-size-diff));
+          height: calc(var(--btn-size) + var(--btn-size-diff));
           border-radius: 50%;
           background: #3a2792;
           color: white;
@@ -51,7 +57,7 @@ class FloatingMenu extends HTMLElement
         .menu-items {
           display: flex;
           flex-direction: column-reverse;
-          gap: 12px;
+          gap: var(--btns-gap);
           visibility: hidden;
           pointer-events: none;
         }
@@ -63,8 +69,8 @@ class FloatingMenu extends HTMLElement
 
         /* Individual sub-buttons */
         .sub-btn {
-          width: 50px;
-          height: 50px;
+          width: var(--btn-size);
+          height: var(--btn-size);
           border-radius: 50%;
           background: azure;
           border: 1px solid #aaa;
@@ -74,9 +80,25 @@ class FloatingMenu extends HTMLElement
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(30px);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
+        }
+        .sub-btn:hover {
+          background: white;
+          box-shadow: 0 3px 9px rgba(255, 255, 255, 0.5);
+        }
+
+        .daily-verse-btn { 
+          right: calc(var(--btn-size) + var(--btns-gap));
+          bottom: calc(calc(calc(var(--btns-gap) + var(--btn-size)) * -4) - calc(var(--btn-size-diff) * 0.5));
+          transform: translateX(30px);
+        }
+        
+        .game-btn {
+          right: calc(var(--btn-size) + var(--btns-gap));
+          bottom: calc(calc(calc(var(--btns-gap) + var(--btn-size)) * -4) - calc(var(--btn-size-diff) * 0.5));
+          transform: translateX(30px) translateY(30px);
         }
 
         /* Label Tooltip */
@@ -94,10 +116,10 @@ class FloatingMenu extends HTMLElement
           transition: opacity 0.2s;
           pointer-events: none;
         }
-
         .sub-btn:hover::before {
           opacity: 1;
         }
+        .move-x-btn-tooltip::before { right: 110px }
 
         /* Staggered Animation Logic */
         .menu-items.open .sub-btn {
@@ -123,7 +145,7 @@ class FloatingMenu extends HTMLElement
             data-label=""
             id="save-pdf-btn"
             label-lang-es="Guardar como PDF"
-            label-lang-en="Save as PDF">📁</button>
+            label-lang-en="Save as PDF">💾</button>
           <button class="sub-btn"
             data-label=""
             id="lang-change-btn"
@@ -131,8 +153,18 @@ class FloatingMenu extends HTMLElement
             label-lang-en="Spanish"
             content-lang-es="🇬🇧"
             content-lang-en="🇪🇸"></button>
-          <!--<button class="sub-btn" data-label="Pretty">✨</button>-->
-          <!--<button class="sub-btn" data-label="Contact Me">⌯⌲</button>-->
+          <!--<button class="sub-btn"
+            data-label=""
+            label-lang-es="Estilizada"
+            label-lang-en="Pretty">✨</button>
+          <button class="sub-btn daily-verse-btn"
+            data-label=""
+            label-lang-es="Verso Diario"
+            label-lang-en="Daily Verse">📜</button>
+          <button class="sub-btn game-btn"
+            data-label=""
+            label-lang-es="¡Jugar!"
+            label-lang-en="Play!">🎮</button>-->
         </div>
       </div>
     `;
@@ -141,8 +173,14 @@ class FloatingMenu extends HTMLElement
   connectedCallback()
   {
     this.shadowRoot.querySelector('.menu-btn').onclick = () => this.toggleMenu();
-    this.shadowRoot.getElementById('save-pdf-btn').onclick = () => window.print();
+    this.shadowRoot.getElementById('save-pdf-btn').onclick = () => this.savePdf();
     this.shadowRoot.getElementById('lang-change-btn').onclick = () => this.toggleLanguage();
+  }
+
+  savePdf()
+  {
+    this.audioClick.play();
+    window.print();
   }
 
   toggleMenu()
@@ -151,30 +189,36 @@ class FloatingMenu extends HTMLElement
     const menu = this.shadowRoot.querySelector('.menu-items');
     const mainBtn = this.shadowRoot.querySelector('.menu-btn');
     
-    if (this.isOpen)
+    if(this.isOpen)
     {
       menu.classList.add('open');
       mainBtn.classList.add('active');
-    } else
+    }
+    else
     {
       menu.classList.remove('open');
       mainBtn.classList.remove('active');
     }
+    this.audioClick.play();
   }
 
   toggleLanguage()
   {
-    // Resume language
-    const currentUrl = new URL(window.location.href);
-    const newLang = localStorage.getItem(KEYS.CURRENT_LANG) === KEYS.LANG_SPANISH ? KEYS.LANG_DEFAULT : KEYS.LANG_SPANISH
-    currentUrl.searchParams.set(KEYS.URL_LANG, newLang);
-    window.location.replace(currentUrl.href);
-    localStorage.setItem(KEYS.CURRENT_LANG, newLang);
-    
-    // Menu language
-    const opposiveLang = { en: KEYS.LANG_SPANISH, es: KEYS.LANG_DEFAULT };
-    const langToSet = opposiveLang[this.getAttribute('menu-lang')];
-    this.setMenuLanguage(langToSet);
+    this.audioClick.play();
+    setTimeout(() =>
+    {
+      // Resume language
+      const currentUrl = new URL(window.location.href);
+      const newLang = localStorage.getItem(KEYS.CURRENT_LANG) === KEYS.LANG_SPANISH ? KEYS.LANG_DEFAULT : KEYS.LANG_SPANISH
+      currentUrl.searchParams.set(KEYS.URL_LANG, newLang);
+      window.location.replace(currentUrl.href);
+      localStorage.setItem(KEYS.CURRENT_LANG, newLang);
+      
+      // Menu language
+      const opposiveLang = { en: KEYS.LANG_SPANISH, es: KEYS.LANG_DEFAULT };
+      const langToSet = opposiveLang[this.getAttribute('menu-lang')];
+      this.setMenuLanguage(langToSet);
+    }, 50);
   }
 
   setMenuLanguage(lang)

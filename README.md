@@ -6,13 +6,12 @@ It is optimized for **[Applicant Tracking Systems](https://en.wikipedia.org/wiki
 > Built using Vanilla JS Web Components to avoid any type of dependency.
 
 ### This site includes:
-[] ATS Optimized Resume version
+[x] ATS Optimized Resume version
+[x] Spanish and English versions
+[x] Saving as PDF
 [] Pretty Resume version
-[] Spanish and English versions
-[] Saving as PDF
-[] Contact Form
 [] Daily Bible Verse
-[] Custom greedings and curious facts
+[x] Custom greedings and curious facts
 [] Matching Pairs game
 
 **Want to see the legacy version?**
