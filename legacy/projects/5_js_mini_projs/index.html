@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+
+		<title>5 JS Projects</title>
+		<base target="_blank">
+		
+		<link rel="stylesheet" type="text/css" href="mini-js-projects.css">
+	</head>
+	<!--END OF HEAD-->
+
+	<body>
+		<main class="container">
+
+			<!--DRAWING APP-->
+			<section class="project-section">
+				<header>
+					<h2>A drawing app :)</h2>
+				</header>
+				<div class="project-display">
+					<canvas id="drawception" width="380" height="380" style="background-color:#fce3ca"></canvas>
+					<div id="toolbox">
+						<button id="decrease">-</button>
+						<span id="size">5</span>
+						<button id="increase">+</button>
+						<input type="color" name="color" id="color">
+						<button id="clear">X</button>
+					</div>
+				</div>
+				<footer class="brief-proj-description">
+					<p>Draw anything you'd like!</p>
+				</footer>
+			</section>
+			<!--SECRET MASK-->
+			<section class="project-section">
+				<header>
+					<h2>This section has a secret 0.o</h2>
+				</header>
+				<div class="project-display">
+					<div id="secret-mask">
+						
+					</div>
+				</div>
+				<footer class="brief-proj-description">
+					<p>Explore it with your mouse.</p>
+				</footer>
+			</section>
+
+			<!--ROCK PAPER SCISSORS GAME-->
+			<section class="project-section">
+				<header>
+					<h2>Rock, Paper & Scissors</h2>
+				</header>
+				<div class="project-display flex col">
+					<fieldset>
+						<legend>U Pick ↓</legend>
+						<div class="input-form">
+							<input type="radio" id="rock" value="rock" name="u-pick">
+							<label for="rock">&#9994;</label>
+						</div>
+						<div class="input-form">
+							<input type="radio" id="paper" value="paper" name="u-pick">
+							<label for="paper">&#9995;</label>
+						</div>
+						<div class="input-form">
+							<input type="radio" id="scissors" value="scissors" name="u-pick">
+							<label for="scissors">&#9996;</label>
+						</div>
+						<div class="input-form">
+							<input type="submit" value="Play!" id="play-game" class="btn" onclick="startGame()">
+						</div>
+					</fieldset>
+					
+					<fieldset>
+						<legend>My Pick ↓</legend>
+						<div id="pc-display">
+							
+						</div>
+					</fieldset>
+				</div>
+				<footer class="brief-proj-description">
+					<p>While studying at <strong><a href="https://platzi.com/">Platzi</a></strong>, one of the challenges was to create this game.</p>
+				</footer>
+			</section>
+
+
+			<!--YOUR WEIGHT IN OTHER PLANETS-->
+			<section class="project-section">
+				<header>
+					<h2>What's your weight in other planets?</h2>
+				</header>
+				<div class="project-display planets">
+
+					<form class="planet-form">
+						<div class="form-group">
+							<label for="user-weight"></label>
+							<input type="number" name="user-weight" id="user-weight" class="input" required placeholder="Your weight in the Earth (kg) please :)">
+						</div>
+						<div class="form-group">
+							<label for="planet-selection">Choose a planet</label>
+							<select id="planet-selection">
+								<option value="mercury">Mercury</option>
+								<option value="venus">Venus</option>
+								<option value="mars">Mars</option>
+								<option value="jupiter">Jupiter</option>
+								<option value="saturn">Saturn</option>
+								<option value="uranus">Uranus</option>
+								<option value="neptune">Neptune</option>
+							</select>
+							<input type="submit" id="planet-ready-btn" value="GO" class="btn">
+						</div>
+						
+						<p id="weight-results"></p>
+						
+					</form>
+
+				</div>
+				<footer>
+					<p>This was the first project done during my <strong><a href="https://twitter.com/joseriosdev/status/1324752788505661444">#100DaysOfCode</a></strong> challenge. Completly inspired by <strong><a href="https://twitter.com/freddier">@freddier</a></strong> from Platzi.</p>
+				</footer>
+			</section>
+
+			<!--OUTRO PROJECT-->
+			<section class="project-section">
+				<header>
+					<h2>Time is stunningly precious!</h2>
+				</header>
+				<div class="project-display">
+					<div class="clock-container">
+						<div class="clock">
+							<div class="needle hour"></div>
+							<div class="needle minute"></div>
+							<div class="needle second"></div>
+							<div class="center-point"></div>
+						</div>
+
+						<div class="time"></div>
+						<div class="date"></div>
+					</div>
+				</div>
+				<footer class="brief-proj-description">
+					<p>Browse more of my portfolio <a href="https://joseriosdev.github.io/">here</a>.</p>
+				</footer>
+			</section>
+
+			<!--MAIN FOOTER-->
+			<footer class="main-footer">
+				<p>Thanks for stoppin' by<br><span style="font-size: 1rem">(☞ﾟヮﾟ)☞ take a look to <strong><a href="https://github.com/joseriosdev">@joseriosdev</a></p>
+			</footer>
+		</main>
+
+		
+		<script type="text/javascript" src="scripts/drawing-app.js"></script>
+		<script type="text/javascript" src="scripts/secret-mask.js"></script>
+		<script type="text/javascript" src="scripts/rock-paper-scissors.js"></script>
+		<script type="text/javascript" src="scripts/weight-outearth.js"></script>
+		<script type="text/javascript" src="scripts/clock.js"></script>
+	</body>
+</html>
