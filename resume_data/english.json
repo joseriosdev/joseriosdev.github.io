@@ -5,12 +5,17 @@
     "title": "Mid Web Developer",
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
-    "summary": "+4 Years of experience as Software Developer where I'm blessed with the opportunity to work mainly with .NET (C#), Salesforce, and JavaScript. Here, I have gained experience in various aspects of the SDLC as frontend and backend. I love taking care of the business as I can by creating solutions and clear documentation to share the knowledge with my team mates.",
+    "summary": "With over 5 years of experience in the IT industry, I am a proficient and disciplined Software Developer. My expertise relies on Salesforce and .NET Technologies. I Have fluent English, an active team player, with strong dedication to knowledge sharing. I love taking care of the business as I can by creating solutions and clear documentation to share the knowledge with my team mates.",
     "location": { "city": "Barranquilla", "country": "Colombia" },
     "profiles": {
       "github": "https://github.com/joseriosdev",
       "linkedin": "https://www.linkedin.com/in/joseriosdev"
-    }
+    },
+    "spoken_languages": [
+      { "language": "English", "level": "Proficient", "flag": "🇬🇧" },
+      { "language": "Español", "level": "Native", "flag": "🇪🇸" },
+      { "language": "Português", "level": "Conversational", "flag": "🇵🇹" }
+    ]
   },
   "skills": [
     {
@@ -19,7 +24,7 @@
     },
     {
       "category": "Frameworks",
-      "keywords": [".NET", "React", "Web Components", "SASS", "Salesforce"]
+      "keywords": [".NET", "React", "Web Components", "SASS", "Salesforce", "LWC"]
     },
     {
       "category": "Developer Tools",
@@ -37,12 +42,14 @@
       "location": "Remote",
       "start_date": "Nov. 3rd 2021",
       "end_date": "Present",
+      "summary": "I am part of a specialized team that develops custom plugins for an ERP, tailored to each client's unique business logic. This role requires adaptability to meet evolving client demands and maintaining consistent communication with the team. My primary tools include the .NET Framework, Salesforce, SQL Server and JavaScript; I also contribute to detailed project documentation to ensure clarity and continuity. I have built integrations that uses REST APIs, EDI parsing, and GraphQL APIs, including integration with other databases.",
       "highlights": [
-        "Architected a custom Web Component library for internal ERP dashboards",
-        "Reduced EDI import error rates by 30% using automated staging table validation",
-        "Optimized SQL Server query performance for high-volume receipt processing",
-        "The XYZ formula is a simple way to show your impact on a resume by spelling out what you achieved (X), how you measured it (Y), and what actions you took (Z)",
-        "accomplished________ through________ using________"
+        "Architected a custom logging library for internal use, reducing debugging time and improving observability of system customizations",
+        "Increased Apex code coverage to 85% through the strategic implementation of unit tests",
+        "Optimized SQL Server query performance to support high-volume transactions",
+        "Produced onboarding materials and trained new employees, resulting in increased productivity and higher code quality",
+        "Led a REST-to-GraphQL migration using .NET Framework by designing and implementing a new architecture",
+        "Proactively established workshops to explain complex technical business logic and processes"
       ]
     }
   ],
@@ -53,6 +60,7 @@
       "url": "https://front-challenges-jdr.netlify.app/",
       "start_date": "March 2021",
       "end_date": "Present",
+      "summary": "A curated collection of diverse web challenges designed to master modern frontend architecture. This project serves as a personal laboratory for experimenting with reusable Web Components, CSS-in-JS patterns, and performance optimization. Each sub-project focuses on solving specific UI/UX problems—ranging from responsive layouts to complex state management—ensuring that every component is built for scalability and accessibility.",
       "highlights": [
         "Personal playground to experiment with Frontend technologies",
         "There are projects used for knowledge sharing",
@@ -68,7 +76,8 @@
       "type": "Bootcamp",
       "location": "Remote",
       "start_date": "June 2021",
-      "end_date": "October 2021"
+      "end_date": "October 2021",
+      "summary": "Successfully completed an intensive five-month, full-time Full Stack Web Development training program, with a primary focus on Salesforce development. Gained practical expertise in web development techniques based on Salesforce, including creating user-friendly and adaptable web interfaces with Aura, LWC and Visualforce, implementing strong foundational architectural and design patterns with Apex, and integrating version control systems. Additionally, I developed complete applications using the out of the box tools provided by Salesforce. Acquired valuable insights into the application of Agile development principles and established proficiency with industry-standard development tools and best practices by actively collaborating with my team mates."
     }
   ]
 }

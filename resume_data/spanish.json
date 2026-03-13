@@ -5,12 +5,17 @@
     "title": "Mid Web Developer",
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
-    "summary": "+4 años de experiencia como Software Developer donde he tenido la bendición de trabajar principalmente con .NET (C#), Salesforce y JavaScript. He ganado experiencia en varios aspectos del SDLC tanto en frontend como en backend. Me apasiona cuidar el negocio creando soluciones y documentación clara para compartir el conocimiento con mis compañeros de equipo.",
+    "summary": "Con más de 5 años de experiencia en la industria de TI, soy un desarrollador de software competente y disciplinado. Mi especialidad se centra en tecnologías Salesforce y .NET. Poseo un inglés fluido, soy un jugador de equipo activo y cuento con una sólida dedicación al intercambio de conocimientos. Me apasiona aportar valor al negocio mediante la creación de soluciones y documentación clara que facilite el aprendizaje compartido con mis compañeros.",
     "location": { "city": "Barranquilla", "country": "Colombia" },
     "profiles": {
       "github": "https://github.com/joseriosdev",
       "linkedin": "https://www.linkedin.com/in/joseriosdev"
-    }
+    },
+    "spoken_languages": [
+      { "language": "English", "level": "Competente", "flag": "🇬🇧" },
+      { "language": "Español", "level": "Nativo", "flag": "🇪🇸" },
+      { "language": "Português", "level": "Conversacional", "flag": "🇵🇹" }
+    ]
   },
   "skills": [
     {
@@ -19,7 +24,7 @@
     },
     {
       "category": "Frameworks",
-      "keywords": [".NET", "React", "Web Components", "SASS"]
+      "keywords": [".NET", "React", "Web Components", "SASS", "Salesforce", "LWC"]
     },
     {
       "category": "Herramientas de Desarrollo",
@@ -27,7 +32,7 @@
     },
     {
       "category": "Librerías y Más",
-      "keywords": ["MS Graph", "Bootstrap", "REST APIs", "GraphQL", "EDI Parsing", "MongoDB"]
+      "keywords": ["MS Graph", "Bootstrap", "REST APIs", "GraphQL", "EDI Parsing", "MongoDB", "Design Principles", "Design Patterns", "ERP", "CRM"]
     }
   ],
   "work": [
@@ -37,12 +42,14 @@
       "location": "Remoto",
       "start_date": "Nov. 3 2021",
       "end_date": "Presente",
+      "summary": "Especialista en desarrollo de plugins a medida para ERPs, ajustados a requerimientos específicos de negocio. Mi trabajo destaca por la adaptabilidad y el trabajo colaborativo en equipo. Experto en el stack .NET, Salesforce, SQL Server y JavaScript. Cuento con sólida experiencia en la creación de integraciones complejas utilizando APIs REST, parsing de EDI y GraphQL, así como en la gestión de documentación técnica para garantizar la escalabilidad del proyecto.",
       "highlights": [
-        "Arquitecté una librería personalizada de Web Components para tableros de ERP internos",
-        "Reduje las tasas de error de importación EDI en un 30% mediante validación automatizada de staging tables",
-        "Optimicé el rendimiento de consultas en SQL Server para el procesamiento de recibos de alto volumen",
-        "La fórmula XYZ es una forma sencilla de mostrar tu impacto en un CV detallando lo que lograste (X), cómo lo mediste (Y) y qué acciones tomaste (Z)",
-        "logré________a través de________usando________"
+        "Diseñé una librería de logging personalizada para uso interno, reduciendo los tiempos de depuración y mejorando la observabilidad de las personalizaciones del sistema",
+        "Incrementé la cobertura de código Apex al 85% mediante la implementación estratégica de pruebas unitarias (Unit Tests)",
+        "Optimicé el rendimiento de consultas en SQL Server para soportar transacciones de alto volumen",
+        "Elaboré material de inducción (onboarding) y capacité a nuevos empleados, logrando un aumento en la productividad y en la calidad del código",
+        "Lideré la migración de REST a GraphQL utilizando .NET Framework, mediante el diseño e implementación de una nueva arquitectura",
+        "Creé proactivamente workshops para explicar procesos técnicos y lógica de negocio compleja"
       ]
     }
   ],
@@ -53,6 +60,7 @@
       "url": "https://front-challenges-jdr.netlify.app/",
       "start_date": "Marzo 2021",
       "end_date": "Presente",
+      "summary": "Una colección seleccionada de diversos desafíos web diseñados para dominar la arquitectura frontend moderna. Este proyecto funciona como un laboratorio personal para experimentar con Web Components reutilizables, patrones de CSS-in-JS y optimización de rendimiento. Cada subproyecto se enfoca en resolver problemas específicos de UI/UX—desde layouts responsivos hasta gestión de estado compleja—asegurando que cada componente esté construido bajo principios de escalabilidad y accesibilidad.",
       "highlights": [
         "Espacio personal para experimentar con tecnologías de Frontend",
         "Proyectos utilizados para el intercambio de conocimientos",
@@ -68,7 +76,8 @@
       "type": "Bootcamp",
       "location": "Remoto",
       "start_date": "Junio 2021",
-      "end_date": "Octubre 2021"
+      "end_date": "Octubre 2021",
+      "summary": "Completé con éxito un programa intensivo de capacitación de tiempo completo en Desarrollo Web Full Stack durante cinco meses, con un enfoque principal en el desarrollo sobre Salesforce. Adquirí experiencia práctica en técnicas de desarrollo web basadas en Salesforce, incluyendo la creación de interfaces adaptables y fáciles de usar con Aura, LWC y Visualforce; la implementación de patrones de diseño y arquitectura sólidos con Apex; y la integración de sistemas de control de versiones. Asimismo, desarrollé aplicaciones completas utilizando las herramientas nativas (out-of-the-box) de Salesforce. Obtuve conocimientos valiosos en la aplicación de principios de desarrollo Ágil y logré fluidez en el uso de herramientas estándar de la industria y mejores prácticas mediante una colaboración activa con mis compañeros de equipo."
     }
   ]
 }
