@@ -1,5 +1,20 @@
 import KEYS from './constantKeys.js';
 
+class WeatherApi
+{
+  constructor()
+  {
+    this.apiKey = "9eba78ec9ac861f4f1e8fe3bf07822ed";
+  }
+
+  async getWeather(city, country)
+  {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${this.apiKey}`);
+    const responseData = await response.json();
+    return responseData;
+  }
+}
+
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(`
   * {
@@ -70,16 +85,7 @@ class SimpleResume extends HTMLElement
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <main>
         <section id="main-header">
-        <dialog-bubble
-          title="Hello there," 
-          avatar="../media/profile_pic.jpg" 
-          messages='[
-            "Hope everything is going well :)",
-            "This site was coded with Web Components and will have a hiddin game at some point.",
-            "Did you know that a man said: <I am the life>? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?"
-          ]'>
-          <h1 id="name"></h1>
-        </dialog-bubble>
+          <div id="name"></div>
           
           <p id="title"></p>
           <p>
@@ -108,19 +114,87 @@ class SimpleResume extends HTMLElement
       .catch(error => this.shadowRoot.innerHTML = `<p class="loading-error">Error loading resume data.<br/>Error: ${error}</p>`);
   }
 
-  render(data)
+  async getLocationData()
   {
-    const isSpanish = data.lang === KEYS.LANG_SPANISH;
-    this.renderHeader(data.basics);
-    this.renderExperience(data.work, isSpanish);
-    this.renderProjects(data.projects, isSpanish);
-    this.renderSkills(data.skills, isSpanish);
-    this.renderEducation(data.education, isSpanish);
+    try
+    {
+      const response = await fetch('https://ipapi.co/json/');
+      return await response.json();
+    }
+    catch (error)
+    {
+      console.error('Location API failed', error);
+      return { city: 'there', timezone: 'UTC' };
+    }
   }
 
-  renderHeader(basics)
+  render(data)
   {
-    this.shadowRoot.getElementById('name').textContent = basics.name;
+    this.renderHeader(data.basics);
+    this.renderExperience(data.work);
+    this.renderProjects(data.projects);
+    this.renderSkills(data.skills);
+    this.renderEducation(data.education);
+  }
+
+  async formatGreeting(data)
+  {
+    const weatherApi = new WeatherApi();
+    const { city, timezone, country } = data;
+    
+    const hour = new Intl.DateTimeFormat(this.isSpanish ? KEYS.LANG_SPANISH : KEYS.LANG_DEFAULT,
+    {
+      hour: 'numeric',
+      hour12: false,
+      timeZone: timezone
+    }).format(new Date());
+
+    let timeOfDay;
+    if (hour >= 5 && hour < 12) {
+      timeOfDay = this.isSpanish ? 'Buenos días' : 'Good morning';
+    } else if (hour >= 12 && hour < 18) {
+      timeOfDay = this.isSpanish ? 'Buenas tardes' : 'Good afternoon';
+    } else {
+      timeOfDay = this.isSpanish ? 'Buenas noches' : 'Good evening';
+    }
+
+    const weatherData = await weatherApi.getWeather(city, country);
+    const celsiusTemp = this.#kelvinToCelsius(weatherData.main.feels_like);
+    const coldLim = 10;
+    const coolLim = 24;
+    let tempFeel = null;
+    if(celsiusTemp < coldLim) {
+      tempFeel = this.isSpanish ? 'frío' : 'cold';
+    } else if (celsiusTemp < coolLim) {
+      tempFeel = this.isSpanish ? 'fresco' : 'cool'
+    } else {
+      tempFeel = this.isSpanish ? 'cálido' : 'warm';
+    }
+
+    if (this.isSpanish) {
+      return `${timeOfDay}. Espero que todo vaya bien en ${city}, se ve que está ${tempFeel} por allá.`;
+    }
+    return `${timeOfDay}. Hope everything goes well in ${city}, looks ${tempFeel} there.`;
+  }
+
+  async renderHeader(basics)
+  {
+    const ipapiData = await this.getLocationData();
+    const initMsg = await this.formatGreeting(ipapiData);
+    const bubbleMessages = this.isSpanish
+      ? [initMsg,'Este sitio fue hecho con Web Components y eventualmente tendrá un juego secreto.','Sabías que un hombre dijo: "Yo Soy la Vida"? mucha gente le creyó, fue un mentiroso? loco? o decía la Verdad?']
+      : [initMsg,'This site was coded with Web Components and will have a hiddin game at some point.','Did you know that a man said: "I am the life"? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?'];
+    const greeting = this.isSpanish ? '¡Hola!' : 'Hey There,';
+    const title = this.isSpanish ? 'Haz click aquí' : 'Click Me';
+    this.shadowRoot.getElementById('name').innerHTML = `
+      <dialog-bubble
+        title="${title}"
+        greeting="${greeting}"
+        avatar="../media/profile_pic.jpg"
+        messages='${JSON.stringify(bubbleMessages)}'>
+        <h1>${basics.name}</h1>
+      </dialog-bubble>
+    `;
     this.shadowRoot.getElementById('title').textContent = basics.title;
     this.shadowRoot.getElementById('location').textContent = `${basics.location.city}, ${basics.location.country}`;
     const emailElmt = this.shadowRoot.getElementById('email');
@@ -141,10 +215,10 @@ class SimpleResume extends HTMLElement
     githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
   }
 
-  renderExperience(jobs, isSpanish)
+  renderExperience(jobs)
   {
     const sectionElmt = this.shadowRoot.getElementById('experience');
-    sectionElmt.innerHTML = isSpanish
+    sectionElmt.innerHTML = this.isSpanish
       ? '<h2 title="+4 años"><span>E</span>XPERIENCIA</h2>'
       : '<h2 title="+4 years"><span>E</span>XPERIENCE</h2>'
     ;
@@ -180,10 +254,10 @@ class SimpleResume extends HTMLElement
     });
   }
 
-  renderProjects(projects, isSpanish)
+  renderProjects(projects)
   {
     const sectionElmt = this.shadowRoot.getElementById('projects');
-    sectionElmt.innerHTML = isSpanish ? '<h2><span>P</span>ROYECTOS</h2>' : '<h2><span>P</span>ROJECTS</h2>';
+    sectionElmt.innerHTML = this.isSpanish ? '<h2><span>P</span>ROYECTOS</h2>' : '<h2><span>P</span>ROJECTS</h2>';
 
     projects.forEach(proj =>
     {
@@ -215,10 +289,10 @@ class SimpleResume extends HTMLElement
     });
   }
 
-  renderSkills(skills, isSpanish)
+  renderSkills(skills)
   {
     const sectionElmt = this.shadowRoot.getElementById('skills');
-    sectionElmt.innerHTML = isSpanish
+    sectionElmt.innerHTML = this.isSpanish
       ? '<h2 title="Desarrollador FullStack"><span>H</span>ABILIDADES <span>T</span>ÉCNICAS</h2>'
       : '<h2 title="FullStack Dev"><span>T</span>ECHNICAL <span>S</span>KILLS</h2>'
     ;
@@ -238,10 +312,10 @@ class SimpleResume extends HTMLElement
     sectionElmt.appendChild(article);
   }
 
-  renderEducation(education, isSpanish)
+  renderEducation(education)
   {
     const sectionElmt = this.shadowRoot.getElementById('education');
-    sectionElmt.innerHTML = isSpanish ? '<h2><span>E</span>DUCACIÓN</h2>' : '<h2><span>E</span>DUCATION</h2>';
+    sectionElmt.innerHTML = this.isSpanish ? '<h2><span>E</span>DUCACIÓN</h2>' : '<h2><span>E</span>DUCATION</h2>';
 
     education.forEach(study =>
     {
@@ -267,6 +341,8 @@ class SimpleResume extends HTMLElement
       sectionElmt.appendChild(article);
     });
   }
+
+  #kelvinToCelsius(temp) { return temp - 273.15; }
 }
 
 customElements.define('simple-resume', SimpleResume);

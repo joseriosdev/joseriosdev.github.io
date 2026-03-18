@@ -14,7 +14,7 @@ class DialogBubbleTooltip extends HTMLElement
   connectedCallback()
   {
     const avatar = this.getAttribute('avatar') || 'https://i.pravatar.cc/100';
-    const title = this.getAttribute('title') || 'Assistant';
+    const title = this.getAttribute('greeting') || 'Hello,';
     
     try
     {
