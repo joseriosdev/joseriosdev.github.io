@@ -57,7 +57,7 @@
     {
       "name": "Frontend Mentor Challenges",
       "description": "Completed frontend challenges built with several Libraries.",
-      "url": "https://front-challenges-jdr.netlify.app/",
+      "url": "https://josechallenges.netlify.app/",
       "start_date": "March 2021",
       "end_date": "Present",
       "summary": "A curated collection of diverse web challenges designed to master modern frontend architecture. This project serves as a personal laboratory for experimenting with reusable Web Components, CSS-in-JS patterns, and performance optimization. Each sub-project focuses on solving specific UI/UX problems—ranging from responsive layouts to complex state management—ensuring that every component is built for scalability and accessibility.",

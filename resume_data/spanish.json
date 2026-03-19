@@ -57,7 +57,7 @@
     {
       "name": "Desafíos de Frontend Mentor",
       "description": "Desafíos de frontend completados y construidos con diversas librerías.",
-      "url": "https://front-challenges-jdr.netlify.app/",
+      "url": "https://josechallenges.netlify.app/",
       "start_date": "Marzo 2021",
       "end_date": "Presente",
       "summary": "Una colección seleccionada de diversos desafíos web diseñados para dominar la arquitectura frontend moderna. Este proyecto funciona como un laboratorio personal para experimentar con Web Components reutilizables, patrones de CSS-in-JS y optimización de rendimiento. Cada subproyecto se enfoca en resolver problemas específicos de UI/UX—desde layouts responsivos hasta gestión de estado compleja—asegurando que cada componente esté construido bajo principios de escalabilidad y accesibilidad.",
