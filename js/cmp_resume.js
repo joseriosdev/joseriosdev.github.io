@@ -160,15 +160,23 @@ class SimpleResume extends HTMLElement
 
     const weatherData = await weatherApi.getWeather(city, country);
     const celsiusTemp = this.#kelvinToCelsius(weatherData.main.feels_like);
-    const coldLim = 10;
+    const freezingLim = 5;
+    const coldLim = 15;
     const coolLim = 24;
+    const warnLim = 32;
     let tempFeel = null;
-    if(celsiusTemp < coldLim) {
+    console.log('celsiusTemp: ' + celsiusTemp);
+
+    if(celsiusTemp < freezingLim) {
+      tempFeel = this.isSpanish ? 'helado' : 'freezing';
+    } else if (celsiusTemp < coldLim) {
       tempFeel = this.isSpanish ? 'frío' : 'cold';
     } else if (celsiusTemp < coolLim) {
-      tempFeel = this.isSpanish ? 'fresco' : 'cool'
-    } else {
+      tempFeel = this.isSpanish ? 'fresco' : 'cool';
+    } else if (celsiusTemp < warnLim) {
       tempFeel = this.isSpanish ? 'cálido' : 'warm';
+    } else {
+      tempFeel = this.isSpanish ? 'caliente' : 'hot';
     }
 
     if (this.isSpanish) {
