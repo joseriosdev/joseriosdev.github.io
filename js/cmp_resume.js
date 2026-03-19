@@ -160,12 +160,11 @@ class SimpleResume extends HTMLElement
 
     const weatherData = await weatherApi.getWeather(city, country);
     const celsiusTemp = this.#kelvinToCelsius(weatherData.main.feels_like);
-    const freezingLim = 5;
-    const coldLim = 15;
-    const coolLim = 24;
-    const warnLim = 32;
+    const freezingLim = 1;
+    const coldLim = 12;
+    const coolLim = 23;
+    const warnLim = 31;
     let tempFeel = null;
-    console.log('celsiusTemp: ' + celsiusTemp);
 
     if(celsiusTemp < freezingLim) {
       tempFeel = this.isSpanish ? 'helado' : 'freezing';
