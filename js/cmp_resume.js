@@ -1,17 +1,19 @@
 import KEYS from './constantKeys.js';
 
-class WeatherApi
+class ApiCalls
 {
-  constructor()
+  static async getWeather(city, country)
   {
-    this.apiKey = "9eba78ec9ac861f4f1e8fe3bf07822ed";
-  }
-
-  async getWeather(city, country)
-  {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${this.apiKey}`);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=9eba78ec9ac861f4f1e8fe3bf07822ed`);
     const responseData = await response.json();
     return responseData;
+  }
+
+  static async getLocation()
+  {
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    return data;
   }
 }
 
@@ -56,21 +58,22 @@ sheet.replaceSync(`
   h2 span { font-size: calc(var(--font-main-size) + 2pt) }
   h3 { font-size: calc(var(--font-main-size) + 1pt) }
   h4 { font-weight: 400 }
-  a { color: black }
   ul { margin-left: calc(var(--standard-margin) * 2) }
   li { text-indent: calc(var(--standard-margin) * -0.5) }
+  a { color: black }
 
   .flex-btwn {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  .loading-error {
-    padding: var(--standard-margin);
-    margin: var(--standard-margin);
-    background: white;
-  }
   .inline { display: inline }
+
+  @media print {
+    a {
+      text-decoration: none;
+    }
+  }
 `);
 
 class SimpleResume extends HTMLElement
@@ -91,8 +94,8 @@ class SimpleResume extends HTMLElement
           <p>
             <span id="location"></span> | 
             <a href="#" target="_blank" id="email"></a> | 
-            <a href="#" target="_blank" id="linkedin"><i class="fa fa-linkedin-square"></i></a> | 
-            <a href="#" target="_blank" id="github"><i class="fa fa-github"></i></a>
+            <a href="#" target="_blank" id="linkedin"></a> | 
+            <a href="#" target="_blank" id="github"></a>
           </p>
         </section>
 
@@ -103,7 +106,7 @@ class SimpleResume extends HTMLElement
       </main>
     `;
   }
-
+  //<i class="fa fa-github"></i> <i class="fa fa-linkedin-square"></i>
   connectedCallback()
   {
     this.isSpanish = this.getAttribute('resume-lang') === KEYS.LANG_SPANISH;
@@ -111,21 +114,7 @@ class SimpleResume extends HTMLElement
     fetch(`../resume_data/${jsonFileName}.json`)
       .then(response => response.json())
       .then(data => this.render(data))
-      .catch(error => this.shadowRoot.innerHTML = `<p class="loading-error">Error loading resume data.<br/>Error: ${error}</p>`);
-  }
-
-  async getLocationData()
-  {
-    try
-    {
-      const response = await fetch('https://ipapi.co/json/');
-      return await response.json();
-    }
-    catch (error)
-    {
-      console.error('Location API failed', error);
-      return { city: 'there', timezone: 'UTC' };
-    }
+      .catch(e => alert('Failed loading resume data. Error: ' + e));
   }
 
   render(data)
@@ -137,10 +126,9 @@ class SimpleResume extends HTMLElement
     this.renderEducation(data.education);
   }
 
-  async formatGreeting(data)
+  async formatGreeting()
   {
-    const weatherApi = new WeatherApi();
-    const { city, timezone, country } = data;
+    const { city, timezone, country } = await ApiCalls.getLocation();
     
     const hour = new Intl.DateTimeFormat(this.isSpanish ? KEYS.LANG_SPANISH : KEYS.LANG_DEFAULT,
     {
@@ -158,13 +146,14 @@ class SimpleResume extends HTMLElement
       timeOfDay = this.isSpanish ? 'Buenas noches' : 'Good evening';
     }
 
-    const weatherData = await weatherApi.getWeather(city, country);
+    const weatherData = await ApiCalls.getWeather(city, country);
     const celsiusTemp = this.#kelvinToCelsius(weatherData.main.feels_like);
     const freezingLim = 1;
     const coldLim = 12;
     const coolLim = 23;
     const warnLim = 31;
     let tempFeel = null;
+    console.log('city: ' + city, ', country: ' + country, ', temperature: ' + celsiusTemp);
 
     if(celsiusTemp < freezingLim) {
       tempFeel = this.isSpanish ? 'helado' : 'freezing';
@@ -186,40 +175,54 @@ class SimpleResume extends HTMLElement
 
   async renderHeader(basics)
   {
-    const ipapiData = await this.getLocationData();
-    const initMsg = await this.formatGreeting(ipapiData);
+    const initMsg = await this.formatGreeting();
     const bubbleMessages = this.isSpanish
       ? [initMsg,'Este sitio fue hecho con Web Components y eventualmente tendrá un juego secreto.','Sabías que un hombre dijo: "Yo Soy la Vida"? mucha gente le creyó, fue un mentiroso? loco? o decía la Verdad?']
       : [initMsg,'This site was coded with Web Components and will have a hiddin game at some point.','Did you know that a man said: "I am the life"? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?'];
     const greeting = this.isSpanish ? '¡Hola!' : 'Hey There,';
     const title = this.isSpanish ? 'Haz click aquí' : 'Click Me';
-    this.shadowRoot.getElementById('name').innerHTML = `
-      <dialog-bubble
-        title="${title}"
-        greeting="${greeting}"
-        avatar="../media/profile_pic.jpg"
-        messages='${JSON.stringify(bubbleMessages)}'>
-        <h1>${basics.name}</h1>
-      </dialog-bubble>
-    `;
-    this.shadowRoot.getElementById('title').textContent = basics.title;
-    this.shadowRoot.getElementById('location').textContent = `${basics.location.city}, ${basics.location.country}`;
+    const nameElmt = this.shadowRoot.getElementById('name');
+
+    if (nameElmt)
+    {
+      nameElmt.innerHTML = `
+        <dialog-bubble
+          title="${title}"
+          greeting="${greeting}"
+          avatar="../media/profile_pic.jpg"
+          messages='${JSON.stringify(bubbleMessages)}'>
+          <h1></h1>
+        </dialog-bubble>
+      `;
+      const h1Elmt = nameElmt.querySelector('h1');
+      if (h1Elmt) h1Elmt.textContent = basics.name;
+    }
+
+    const titleElmt = this.shadowRoot.getElementById('title');
+    const locationElmt = this.shadowRoot.getElementById('location');
     const emailElmt = this.shadowRoot.getElementById('email');
-    emailElmt.textContent = basics.email;
-    emailElmt.href = 'mailto:' + basics.email;
-    emailElmt.title = this.isSpanish ? `Enviar email a ${basics.name}` : `Send email to ${basics.name}`;
-
-    const linkedinUser = document.createTextNode('/' + basics.profiles.linkedin.split('/').pop());
+    const linkedinUser = document.createTextNode(basics.profiles.linkedin.replace('https://www.', ''));//('/' + basics.profiles.linkedin.split('/').pop());
     const linkedinElmt = this.shadowRoot.getElementById('linkedin');
-    linkedinElmt.href = basics.profiles.linkedin;
-    linkedinElmt.appendChild(linkedinUser);
-    linkedinElmt.title = this.isSpanish ? `Abrir LinkedIn de ${basics.name}` : `Open ${basics.name}'s LinkedIn`;
-
-    const githubUser = document.createTextNode('/' + basics.profiles.github.split('/').pop());
+    const githubUser = document.createTextNode(basics.profiles.github.replace('https://', ''));//('/' + basics.profiles.github.split('/').pop());
     const githubElmt = this.shadowRoot.getElementById('github');
-    githubElmt.href = basics.profiles.github;
-    githubElmt.appendChild(githubUser);
-    githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
+
+    if (titleElmt && locationElmt && emailElmt && linkedinElmt && githubElmt)
+    {
+      titleElmt.textContent = basics.title;
+      locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code_iso3}`;
+
+      emailElmt.textContent = basics.email;
+      emailElmt.href = 'mailto:' + basics.email;
+      emailElmt.title = this.isSpanish ? `Enviar email a ${basics.name}` : `Send email to ${basics.name}`;
+  
+      linkedinElmt.href = basics.profiles.linkedin;
+      linkedinElmt.appendChild(linkedinUser);
+      linkedinElmt.title = this.isSpanish ? `Abrir LinkedIn de ${basics.name}` : `Open ${basics.name}'s LinkedIn`;
+  
+      githubElmt.href = basics.profiles.github;
+      githubElmt.appendChild(githubUser);
+      githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
+    }
   }
 
   renderExperience(jobs)
