@@ -6,7 +6,7 @@
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
     "summary": "With over 5 years of experience in the IT industry, I am a proficient and disciplined Software Developer. My expertise relies on Salesforce and .NET Technologies. I Have fluent English, an active team player, with strong dedication to knowledge sharing. I love taking care of the business as I can by creating solutions and clear documentation to share the knowledge with my team mates.",
-    "location": { "city": "Barranquilla", "country_code_iso3": "COL" },
+    "location": { "city": "Barranquilla", "country_code": "CO" },
     "profiles": {
       "github": "https://github.com/joseriosdev",
       "linkedin": "https://www.linkedin.com/in/joseriosdev"

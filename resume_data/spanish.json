@@ -6,7 +6,7 @@
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
     "summary": "Con más de 5 años de experiencia en la industria de TI, soy un desarrollador de software competente y disciplinado. Mi especialidad se centra en tecnologías Salesforce y .NET. Poseo un inglés fluido, soy un jugador de equipo activo y cuento con una sólida dedicación al intercambio de conocimientos. Me apasiona aportar valor al negocio mediante la creación de soluciones y documentación clara que facilite el aprendizaje compartido con mis compañeros.",
-    "location": { "city": "Barranquilla", "country_code_iso3": "COL" },
+    "location": { "city": "Barranquilla", "country_code": "CO" },
     "profiles": {
       "github": "https://github.com/joseriosdev",
       "linkedin": "https://www.linkedin.com/in/joseriosdev"

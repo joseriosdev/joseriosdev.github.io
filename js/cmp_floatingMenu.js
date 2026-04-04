@@ -133,6 +133,15 @@ class FloatingMenu extends HTMLElement
         .menu-items.open .sub-btn:nth-child(4) { transition-delay: 0.2s; }
 
         svg { width: 28px; height: 28px; fill: currentColor; }
+
+        .unable-btn::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, .5);
+        }
       </style>
 
       <div class="menu-container">
@@ -153,18 +162,19 @@ class FloatingMenu extends HTMLElement
             label-lang-en="Spanish"
             content-lang-es="🇬🇧"
             content-lang-en="🇪🇸"></button>
-          <!--<button class="sub-btn"
+          <button class="sub-btn unable-btn"
             data-label=""
-            label-lang-es="Estilizada"
-            label-lang-en="Pretty">✨</button>
-          <button class="sub-btn daily-verse-btn"
+            label-lang-es="Pronto"
+            label-lang-en="Coming soon">✨</button>
+          <button class="sub-btn daily-verse-btn unable-btn"
             data-label=""
-            label-lang-es="Verso Diario"
-            label-lang-en="Daily Verse">📜</button>
-          <button class="sub-btn game-btn"
+            label-lang-es="Pronto"
+            label-lang-en="Coming soon">📜</button>
+          <!--<button class="sub-btn game-btn"
             data-label=""
             label-lang-es="¡Jugar!"
-            label-lang-en="Play!">🎮</button>-->
+            label-lang-en="Play!">🎮</button>
+            Estilizada, Pretty, Verso Diario, Daily Verse-->
         </div>
       </div>
     `;

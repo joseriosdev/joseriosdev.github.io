@@ -1,21 +1,5 @@
 import KEYS from './constantKeys.js';
-
-class ApiCalls
-{
-  static async getWeather(city, country)
-  {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=9eba78ec9ac861f4f1e8fe3bf07822ed`);
-    const responseData = await response.json();
-    return responseData;
-  }
-
-  static async getLocation()
-  {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    return data;
-  }
-}
+import ApiCalls from './apiCalls.js';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(`
@@ -147,7 +131,7 @@ class SimpleResume extends HTMLElement
     }
 
     const weatherData = await ApiCalls.getWeather(city, country);
-    const celsiusTemp = this.#kelvinToCelsius(weatherData.main.feels_like);
+    const celsiusTemp = weatherData.main.feels_like;
     const freezingLim = 1;
     const coldLim = 12;
     const coolLim = 23;
@@ -209,7 +193,7 @@ class SimpleResume extends HTMLElement
     if (titleElmt && locationElmt && emailElmt && linkedinElmt && githubElmt)
     {
       titleElmt.textContent = basics.title;
-      locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code_iso3}`;
+      locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code}`;
 
       emailElmt.textContent = basics.email;
       emailElmt.href = 'mailto:' + basics.email;
@@ -351,8 +335,6 @@ class SimpleResume extends HTMLElement
       sectionElmt.appendChild(article);
     });
   }
-
-  #kelvinToCelsius(temp) { return temp - 273.15; }
 }
 
 customElements.define('simple-resume', SimpleResume);
