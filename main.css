@@ -6,7 +6,9 @@
   --font-main-size: 12pt;
   --font-title: Georgia, serif;
   --standard-margin: .8rem;
-  --blue: #499fff;
+  --blue: rgb(73, 159, 255);
+  --blue-alpha: rgba(73, 159, 255, .9);
+  --dark: #333;
 }
 
 * {

@@ -8,50 +8,83 @@ sheet.replaceSync(`
     padding: 0;
     box-sizing: border-box;
   }
-  .simple-main {
+  :host {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .resume-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
     max-width: var(--paper-w);
     min-height: var(--paper-h);
     margin: 0 auto;
+    padding-top: 2rem;
+    background: white;
+  }
+  /*.resume-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./legacy/projects/blaiz_landing/docs/assets/img/bg-pattern.jpg') repeat center;
+    opacity: .1;
+  }*/
+  .header {
+    text-align: center;
+  }
+  .profile-links {
+    padding: 1rem 0;
+    margin-top: 1rem;
+    background: var(--dark);
+    color: var(--blue);
+  }
+  .profile-links ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style-type: none;
+  }
+  .profile-links ul li {
+    cursor: pointer;
+  }
+  .profile-links ul li i {
+    margin-right: 10px;
+  }
+  .profile-links ul li a {
+    color: whitesmoke;
+    text-decoration: none;
+  }
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .content {
+    display: flex;
+    flex-grow: 1;
+    padding-left: 2rem;
+  }
+  .sidebar {
+    min-width: 33%;
+    background: linear-gradient(var(--blue-alpha)), 
+    url('./legacy/projects/blaiz_landing/docs/assets/img/bg-pattern.jpg') repeat center;
+    flex-grow: 1;
+  }
+  .main-content {
+    margin: 0 auto;
     padding: var(--paper-padding);
+    flex-grow: 1;
     background-color: white;
     font-size: var(--font-main-size);
     font-family: var(--font-main);
     letter-spacing: .5px;
     overflow: auto;
   }
-  .main-header {
-    margin-bottom: var(--standard-margin);
-    text-align: center;
-  }
 
-  section { margin-bottom: var(--standard-margin) }
-  article { margin: 0 0 var(--standard-margin) var(--standard-margin) }
-
-  h1 {
-    font-family: Georgia, serif;
-    font-size: calc(var(--font-main-size) * 2);
-  }
-  h2 {
-    margin-bottom: calc(var(--standard-margin) * 0.3);
-    border-bottom: 1px solid gray;
-    font-family: Georgia, serif;
-    font-size: calc(var(--font-main-size) - 2pt);
-    font-weight: 500;
-    letter-spacing: 1pt;
-  }
-  h2 span { font-size: calc(var(--font-main-size) + 2pt) }
-  h3 { font-size: calc(var(--font-main-size) + 1pt) }
-  h4 { font-weight: 400 }
-  ul { margin-left: calc(var(--standard-margin) * 2) }
-  li { text-indent: calc(var(--standard-margin) * -0.5) }
-  a { color: black }
-
-  .flex-btwn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .inline { display: inline }
 
   @media print {
     a {
@@ -60,7 +93,7 @@ sheet.replaceSync(`
   }
 `);
 
-class SimpleResume extends HTMLElement
+class PrettyResume extends HTMLElement
 {
   constructor()
   {
@@ -69,24 +102,96 @@ class SimpleResume extends HTMLElement
     this.shadowRoot.adoptedStyleSheets = [sheet];
     this.isSanish = false;
     this.shadowRoot.innerHTML = `
-      <main class="simple-main">
-        <section class="main-header">
-          <div id="name"></div>
-          
-          <p id="title"></p>
-          <p>
-            <a href="#" target="_blank" id="location"></a> | 
-            <a href="#" target="_blank" id="email"></a> | 
-            <a href="#" target="_blank" id="linkedin"></a> | 
-            <a href="#" target="_blank" id="github"></a>
-          </p>
-        </section>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <div class="resume-container">
+        <header class="header">
+          <!-- <div class="profile-img"></div>  -->
+          <div>
+            <h1 id="p-name"></h1>
+            <p id="p-title"></p>
+          </div>
+        </header>
+        <div class="content-container">
+          <nav class="profile-links">
+            <ul>
+              <li><i class="fa fa-envelope"></i><a href="#" target="_blank" id="p-email"></a></li>
+              <li><i class="fa fa-github"></i><a href="#" target="_blank" id="p-github"></a></li>
+              <li><i class="fa fa-linkedin-square"></i><a href="#" target="_blank" id="p-linkdin"></a></li>
+              <li><i class="fa fa-map-pin"></i><a href="#" target="_blank" id="p-loc"></a></li>
+            </ul>
+          </nav>
+        
+          <div class="content">
+            <aside class="sidebar">
+              <section>
 
-        <section id="experience"></section>
-        <section id="projects"></section>
-        <section id="skills"></section>
-        <section id="education"></section>
-      </main>
+              </section>
+
+              <div class="section-title-sidebar" style="margin-top: 40px;">Skills</div>
+              <div class="skill-item">
+                <span class="skill-name">Graphic Design</span>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 90%;"></div></div>
+              </div>
+              <div class="skill-item">
+                <span class="skill-name">Web Development</span>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+              </div>
+
+              <div class="section-title-sidebar" style="margin-top: 40px;">Education</div>
+              <div class="exp-item">
+                <div class="exp-header" style="font-size: 0.9rem;">Bachelor of Arts</div>
+                <div class="exp-company">University of Design | 2012</div>
+              </div>
+            </aside>
+
+          <main class="main-content">
+            <section class="main-section">
+              <div class="main-title">Profile</div>
+              <p class="exp-desc">
+                Innovative and highly motivated Creative Director with over 10 years of experience in high-level branding and digital design. Proven track record of leading creative teams to deliver award-winning campaigns.
+              </p>
+            </section>
+
+            <section class="main-section">
+              <div class="main-title">Experience</div>
+              
+              <div class="exp-item">
+                <div class="exp-header">
+                  <span>Senior Creative Manager</span>
+                  <span>2018 - Present</span>
+                </div>
+                <div class="exp-company">Borcelle Studio</div>
+                <p class="exp-desc">Lead the creative vision for global brands, managing a team of 15+ designers and copywriters. Oversee all phases of project development from concept to execution.</p>
+              </div>
+
+              <div class="exp-item">
+                <div class="exp-header">
+                  <span>Graphic Designer</span>
+                  <span>2015 - 2018</span>
+                </div>
+                <div class="exp-company">Fauget Agency</div>
+                <p class="exp-desc">Developed brand identities and marketing collateral for diverse clients in the tech and fashion industries.</p>
+              </div>
+            </section>
+
+            <section class="main-section">
+              <div class="main-title">References</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="exp-desc">
+                  <b>Estelle Darcy</b><br>
+                  Manager, Borcelle Studio<br>
+                  P: +123-456-7890
+                </div>
+                <div class="exp-desc">
+                  <b>Harper Richard</b><br>
+                  Director, Fauget Agency<br>
+                  P: +123-456-7890
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
     `;
   }
   
@@ -103,10 +208,10 @@ class SimpleResume extends HTMLElement
   render(data)
   {
     this.renderHeader(data.basics);
-    this.renderExperience(data.work);
-    this.renderProjects(data.projects);
-    this.renderSkills(data.skills);
-    this.renderEducation(data.education);
+    // this.renderExperience(data.work);
+    // this.renderProjects(data.projects);
+    // this.renderSkills(data.skills);
+    // this.renderEducation(data.education);
   }
 
   async formatGreeting()
@@ -132,9 +237,9 @@ class SimpleResume extends HTMLElement
     const weatherData = await ApiCalls.getWeather(city, country);
     const celsiusTemp = weatherData.main.feels_like;
     const freezingLim = 1;
-    const coldLim = 15;
-    const coolLim = 25;
-    const warnLim = 32;
+    const coldLim = 12;
+    const coolLim = 23;
+    const warnLim = 31;
     let tempFeel = null;
     console.log('city: ' + city, ', country: ' + country, ', temperature: ' + celsiusTemp);
 
@@ -158,57 +263,33 @@ class SimpleResume extends HTMLElement
 
   async renderHeader(basics)
   {
-    const initMsg = await this.formatGreeting();
-    const bubbleMessages = this.isSpanish
-      ? [initMsg,'Este sitio fue hecho con Web Components y eventualmente tendrá un juego secreto.','Sabías que un hombre dijo: "Yo Soy la Vida"? mucha gente le creyó, fue un mentiroso? loco? o decía la Verdad?']
-      : [initMsg,'This site was coded with Web Components and will have a hiddin game at some point.','Did you know that a man said: "I am the life"? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?'];
-    const greeting = this.isSpanish ? '¡Hola!' : 'Hey There,';
-    const title = this.isSpanish ? 'Haz click aquí' : 'Click Me';
-    const nameElmt = this.shadowRoot.getElementById('name');
+    const nameElmt = this.shadowRoot.getElementById('p-name');
+    const titleElmt = this.shadowRoot.getElementById('p-title');
+    const locationElmt = this.shadowRoot.getElementById('p-loc');
+    const emailElmt = this.shadowRoot.getElementById('p-email');
+    const linkedinUser = document.createTextNode('/' + basics.profiles.linkedin.split('/').pop());
+    const linkedinElmt = this.shadowRoot.getElementById('p-linkdin');
+    const githubUser = document.createTextNode('/' + basics.profiles.github.split('/').pop());
+    const githubElmt = this.shadowRoot.getElementById('p-github');
+    
+    nameElmt.textContent = basics.name;
+    titleElmt.textContent = basics.title;
+    
+    locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code}`;
+    locationElmt.title = this.isSpanish ? `¿Dónde queda ${basics.location.city}?` : `Where's ${basics.location.city} located?`;
+    locationElmt.href = `https://www.google.com/maps/place/${basics.location.city},+${basics.location.country_code}`;
 
-    if (nameElmt)
-    {
-      nameElmt.innerHTML = `
-        <dialog-bubble
-          title="${title}"
-          greeting="${greeting}"
-          avatar="../media/profile_pic.jpg"
-          messages='${JSON.stringify(bubbleMessages)}'>
-          <h1></h1>
-        </dialog-bubble>
-      `;
-      const h1Elmt = nameElmt.querySelector('h1');
-      if (h1Elmt) h1Elmt.textContent = basics.name;
-    }
+    emailElmt.textContent = basics.email;
+    emailElmt.href = 'mailto:' + basics.email;
+    emailElmt.title = this.isSpanish ? `Enviar email a ${basics.name}` : `Send email to ${basics.name}`;
 
-    const titleElmt = this.shadowRoot.getElementById('title');
-    const locationElmt = this.shadowRoot.getElementById('location');
-    const emailElmt = this.shadowRoot.getElementById('email');
-    const linkedinUser = document.createTextNode(basics.profiles.linkedin.replace('https://www.', ''));
-    const linkedinElmt = this.shadowRoot.getElementById('linkedin');
-    const githubUser = document.createTextNode(basics.profiles.github.replace('https://', ''));
-    const githubElmt = this.shadowRoot.getElementById('github');
+    linkedinElmt.href = basics.profiles.linkedin;
+    linkedinElmt.appendChild(linkedinUser);
+    linkedinElmt.title = this.isSpanish ? `Abrir LinkedIn de ${basics.name}` : `Open ${basics.name}'s LinkedIn`;
 
-    if (titleElmt && locationElmt && emailElmt && linkedinElmt && githubElmt)
-    {
-      titleElmt.textContent = basics.title;
-      locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code}`;
-      locationElmt.title = this.isSpanish ? `¿Dónde queda ${basics.location.city}?` : `Where's ${basics.location.city} located?`;
-      locationElmt.href = `https://www.google.com/maps/place/${basics.location.city},+${basics.location.country_code}`;
-      locationElmt.style['text-decoration'] = 'none';
-
-      emailElmt.textContent = basics.email;
-      emailElmt.href = 'mailto:' + basics.email;
-      emailElmt.title = this.isSpanish ? `Enviar email a ${basics.name}` : `Send email to ${basics.name}`;
-  
-      linkedinElmt.href = basics.profiles.linkedin;
-      linkedinElmt.appendChild(linkedinUser);
-      linkedinElmt.title = this.isSpanish ? `Abrir LinkedIn de ${basics.name}` : `Open ${basics.name}'s LinkedIn`;
-  
-      githubElmt.href = basics.profiles.github;
-      githubElmt.appendChild(githubUser);
-      githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
-    }
+    githubElmt.href = basics.profiles.github;
+    githubElmt.appendChild(githubUser);
+    githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
   }
 
   renderExperience(jobs)
@@ -339,4 +420,4 @@ class SimpleResume extends HTMLElement
   }
 }
 
-customElements.define('simple-resume', SimpleResume);
+customElements.define('pretty-resume', PrettyResume);

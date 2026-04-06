@@ -16,3 +16,4 @@ export default class ApiCalls
     return data;
   }
 }
+//https://beta.ourmanna.com/api/v1/get - https://github.com/wldeh/bible-api - https://unsplash.com/developers - https://www.biblegateway.com/passage/?search=Ephesians%201%3A7&version=NVI - i commit and push to github an api key, is there a way to remove that specify line of code from all previous commits? - 
