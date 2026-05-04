@@ -158,6 +158,7 @@ class SimpleResume extends HTMLElement
 
   async renderHeader(basics)
   {
+    basics.name = basics.first_name + ' ' + basics.last_name;
     const initMsg = await this.formatGreeting();
     const bubbleMessages = this.isSpanish
       ? [initMsg,'Este sitio fue hecho con Web Components y eventualmente tendrá un juego secreto.','Sabías que un hombre dijo: "Yo Soy la Vida"? mucha gente le creyó, fue un mentiroso? loco? o decía la Verdad?']

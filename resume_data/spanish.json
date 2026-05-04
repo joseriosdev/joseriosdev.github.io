@@ -1,7 +1,8 @@
 {
   "lang": "es",
   "basics": {
-    "name": "Jose Rios",
+    "first_name": "Jose",
+    "last_name": "Rios",
     "title": "Mid Web Developer",
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
@@ -70,6 +71,15 @@
     }
   ],
   "education": [
+    {
+      "institution": "SENA",
+      "title": "Análisis y Desarrollo de Software",
+      "type": "Técnico",
+      "location": "Remoto",
+      "start_date": "Abril 2026",
+      "end_date": "Presente",
+      "summary": ""
+    },
     {
       "institution": "Jala Foundation",
       "title": "Salesforce Development",

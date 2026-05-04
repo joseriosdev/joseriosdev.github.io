@@ -6,7 +6,7 @@
   --font-main-size: 12pt;
   --font-title: Georgia, serif;
   --standard-margin: .8rem;
-  --blue: rgb(73, 159, 255);
+  --blue: rgb(223, 179, 155);/*rgb(226, 89, 89);/*rgb(73, 159, 255);*/
   --blue-alpha: rgba(73, 159, 255, .9);
   --dark: #333;
 }

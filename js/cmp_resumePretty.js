@@ -12,6 +12,10 @@ sheet.replaceSync(`
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 
+  li::marker {
+    color: rgba(9,9,9,.3);
+  }
+
   .resume-container {
     display: flex;
     flex-direction: column;
@@ -34,30 +38,33 @@ sheet.replaceSync(`
   }*/
   .header {
     text-align: center;
+  } .header div h1#p-name {
+    letter-spacing: .3rem;
+    font-weight: 800;
+  } .header div h1#p-name span {
+    color: var(--blue);
   }
+
   .profile-links {
     padding: 1rem 0;
     margin-top: 1rem;
     background: var(--dark);
     color: var(--blue);
-  }
-  .profile-links ul {
+  } .profile-links ul {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     list-style-type: none;
-  }
-  .profile-links ul li {
+  } .profile-links ul li {
     cursor: pointer;
-  }
-  .profile-links ul li i {
+  } .profile-links ul li i {
     margin-right: 10px;
-  }
-  .profile-links ul li a {
+  } .profile-links ul li a {
     color: whitesmoke;
     text-decoration: none;
   }
+
   .content-container {
     display: flex;
     flex-direction: column;
@@ -68,12 +75,18 @@ sheet.replaceSync(`
     flex-grow: 1;
     padding-left: 2rem;
   }
+
   .sidebar {
     min-width: 33%;
-    background: linear-gradient(var(--blue-alpha)), 
+    background: linear-gradient(var(--blue)), 
     url('./legacy/projects/blaiz_landing/docs/assets/img/bg-pattern.jpg') repeat center;
     flex-grow: 1;
   }
+  .section-title-sidebar {
+    margin: 0 auto;
+    padding: var(--paper-padding);
+  }
+
   .main-content {
     margin: 0 auto;
     padding: var(--paper-padding);
@@ -84,7 +97,22 @@ sheet.replaceSync(`
     letter-spacing: .5px;
     overflow: auto;
   }
+  .main-section {
+    margin-bottom: 2rem;
+    font-family: Roboto, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  .main-title {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    letter-spacing: .2rem;
+    margin-bottom: .3rem;
+    font-size: 1.3rem;
+  }
 
+  .flex-btwn2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   @media print {
     a {
@@ -107,7 +135,7 @@ class PrettyResume extends HTMLElement
         <header class="header">
           <!-- <div class="profile-img"></div>  -->
           <div>
-            <h1 id="p-name"></h1>
+            <h1 id="p-name"><span></span></h1>
             <p id="p-title"></p>
           </div>
         </header>
@@ -123,73 +151,16 @@ class PrettyResume extends HTMLElement
         
           <div class="content">
             <aside class="sidebar">
-              <section>
-
-              </section>
-
-              <div class="section-title-sidebar" style="margin-top: 40px;">Skills</div>
-              <div class="skill-item">
-                <span class="skill-name">Graphic Design</span>
-                <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 90%;"></div></div>
-              </div>
-              <div class="skill-item">
-                <span class="skill-name">Web Development</span>
-                <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-              </div>
-
-              <div class="section-title-sidebar" style="margin-top: 40px;">Education</div>
-              <div class="exp-item">
-                <div class="exp-header" style="font-size: 0.9rem;">Bachelor of Arts</div>
-                <div class="exp-company">University of Design | 2012</div>
-              </div>
+              <section class="section-title-sidebar main-section" id="p-skills"></section>
+              <figure id="p-img"></figure>
+              <section class="section-title-sidebar" id="p-edu"></section>
             </aside>
-
-          <main class="main-content">
-            <section class="main-section">
-              <div class="main-title">Profile</div>
-              <p class="exp-desc">
-                Innovative and highly motivated Creative Director with over 10 years of experience in high-level branding and digital design. Proven track record of leading creative teams to deliver award-winning campaigns.
-              </p>
-            </section>
-
-            <section class="main-section">
-              <div class="main-title">Experience</div>
-              
-              <div class="exp-item">
-                <div class="exp-header">
-                  <span>Senior Creative Manager</span>
-                  <span>2018 - Present</span>
-                </div>
-                <div class="exp-company">Borcelle Studio</div>
-                <p class="exp-desc">Lead the creative vision for global brands, managing a team of 15+ designers and copywriters. Oversee all phases of project development from concept to execution.</p>
-              </div>
-
-              <div class="exp-item">
-                <div class="exp-header">
-                  <span>Graphic Designer</span>
-                  <span>2015 - 2018</span>
-                </div>
-                <div class="exp-company">Fauget Agency</div>
-                <p class="exp-desc">Developed brand identities and marketing collateral for diverse clients in the tech and fashion industries.</p>
-              </div>
-            </section>
-
-            <section class="main-section">
-              <div class="main-title">References</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="exp-desc">
-                  <b>Estelle Darcy</b><br>
-                  Manager, Borcelle Studio<br>
-                  P: +123-456-7890
-                </div>
-                <div class="exp-desc">
-                  <b>Harper Richard</b><br>
-                  Director, Fauget Agency<br>
-                  P: +123-456-7890
-                </div>
-              </div>
-            </section>
-          </main>
+          
+            <main class="main-content">
+              <section class="main-section" id="p-about"></section>
+              <section class="main-section" id="p-exp"></section>
+            </main>
+          </div>
         </div>
       </div>
     `;
@@ -208,9 +179,9 @@ class PrettyResume extends HTMLElement
   render(data)
   {
     this.renderHeader(data.basics);
-    // this.renderExperience(data.work);
-    // this.renderProjects(data.projects);
-    // this.renderSkills(data.skills);
+    this.renderAbout(data.basics.summary);
+    this.renderExperience(data.work);
+    this.renderSkills(data.skills);
     // this.renderEducation(data.education);
   }
 
@@ -263,6 +234,7 @@ class PrettyResume extends HTMLElement
 
   async renderHeader(basics)
   {
+    basics.name = basics.first_name + ' ' + basics.last_name;
     const nameElmt = this.shadowRoot.getElementById('p-name');
     const titleElmt = this.shadowRoot.getElementById('p-title');
     const locationElmt = this.shadowRoot.getElementById('p-loc');
@@ -272,9 +244,10 @@ class PrettyResume extends HTMLElement
     const githubUser = document.createTextNode('/' + basics.profiles.github.split('/').pop());
     const githubElmt = this.shadowRoot.getElementById('p-github');
     
-    nameElmt.textContent = basics.name;
+    nameElmt.prepend(basics.first_name.toUpperCase() + '  ');
+    nameElmt.querySelector('span').textContent = basics.last_name.toUpperCase();
     titleElmt.textContent = basics.title;
-    
+
     locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code}`;
     locationElmt.title = this.isSpanish ? `¿Dónde queda ${basics.location.city}?` : `Where's ${basics.location.city} located?`;
     locationElmt.href = `https://www.google.com/maps/place/${basics.location.city},+${basics.location.country_code}`;
@@ -294,10 +267,12 @@ class PrettyResume extends HTMLElement
 
   renderExperience(jobs)
   {
-    const sectionElmt = this.shadowRoot.getElementById('experience');
+    const highlightsLim = 3;
+    const sectionElmt = this.shadowRoot.getElementById('p-exp');
+    sectionElmt.style.marginBottom = '2rem';
     sectionElmt.innerHTML = this.isSpanish
-      ? '<h2 title="+4 años"><span>E</span>XPERIENCIA</h2>'
-      : '<h2 title="+4 years"><span>E</span>XPERIENCE</h2>'
+      ? '<h3 class="main-title" title="+4 años">EXPERIENCIA LABORAL</h3>'
+      : '<h3 class="main-title" title="+4 years">WORK EXPERIENCE</h3>'
     ;
 
     jobs.forEach(job =>
@@ -308,84 +283,64 @@ class PrettyResume extends HTMLElement
       const item2 = document.createElement('div');
       const jobTitle = document.createElement('h3');
       const jobPeriod = document.createElement('p');
-      const company = document.createElement('h4');
+      const companyLoc = document.createElement('p');
       const location = document.createElement('p');
       const ul = document.createElement('ul');
 
-      item1.classList.add('flex-btwn');
       jobTitle.textContent = job.position;
+      jobTitle.style.fontWeight = 500;
       jobPeriod.textContent = `${job.start_date} - ${job.end_date}`;
       item1.append(jobTitle, jobPeriod);
 
-      item2.classList.add('flex-btwn');
-      company.appendChild(Object.assign(document.createElement('em'), { textContent: job.company }));
-      location.appendChild(Object.assign(document.createElement('em'), { textContent: job.location }))
-      item2.append(company, location);
+      companyLoc.appendChild(Object.assign(document.createElement('em'), { textContent: job.company + ', ' + job.location }));
+      item2.append(companyLoc);
 
+      header.style.marginBottom = '.8rem';
       header.append(item1, item2);
 
       job.highlights.forEach(highlight => ul.appendChild(Object.assign(document.createElement('li'), { textContent: highlight })));
+      ul.style.marginLeft = '1rem';
 
       article.append(header, ul);
       sectionElmt.appendChild(article);
     });
   }
 
-  renderProjects(projects)
+  renderAbout(summary)
   {
-    const sectionElmt = this.shadowRoot.getElementById('projects');
-    sectionElmt.innerHTML = this.isSpanish ? '<h2><span>P</span>ROYECTOS</h2>' : '<h2><span>P</span>ROJECTS</h2>';
-
-    projects.forEach(proj =>
-    {
-      const article = document.createElement('article');
-      const header = document.createElement('header');
-      const title = document.createElement('div');
-      const projName = document.createElement('h3');
-      const techStack = document.createElement('em');
-      const dates = document.createElement('div');
-      const ul = document.createElement('ul');
-
-      header.classList.add('flex-btwn');
-      projName.appendChild(Object.assign(document.createElement('a'), {
-        textContent: proj.name,
-        href: proj.url,
-        target: '_blank',
-        title: `Go to ${proj.name}`
-      }));
-      techStack.textContent = proj.tech_stack.join(', ');
-      projName.classList.add('inline');
-      title.append(projName, ' | ', techStack);
-      dates.appendChild(Object.assign(document.createElement('p'), { textContent: `${proj.start_date} - ${proj.end_date}` }));
-      header.append(title, dates);
-
-      proj.highlights.forEach(highlight => ul.appendChild(Object.assign(document.createElement('li'), { textContent: highlight })));
-
-      article.append(header, ul);
-      sectionElmt.appendChild(article);
-    });
+    const sectionElmt = this.shadowRoot.getElementById('p-about');
+    sectionElmt.innerHTML = this.isSpanish ? '<h3 class="main-title">ACERCA DE MI</h2>' : '<h3 class="main-title">ABOUT ME</h2>';
+    const article = document.createElement('article');
+    article.textContent = summary;
+    sectionElmt.appendChild(article);
   }
 
   renderSkills(skills)
   {
-    const sectionElmt = this.shadowRoot.getElementById('skills');
+    const sectionElmt = this.shadowRoot.getElementById('p-skills');
     sectionElmt.innerHTML = this.isSpanish
-      ? '<h2 title="Desarrollador FullStack"><span>H</span>ABILIDADES <span>T</span>ÉCNICAS</h2>'
-      : '<h2 title="FullStack Dev"><span>T</span>ECHNICAL <span>S</span>KILLS</h2>'
+      ? '<h2 title="Desarrollador FullStack">HABILIDADES</h2>'
+      : '<h2 title="FullStack Dev">SKILLS</h2>'
     ;
     const article = document.createElement('article');
 
-    skills.forEach(skill =>
+    // I want to show less skills in this version
+    const skillsArr = [];
+    for (let i = 0; i < skills.length - 1; i++)
     {
+      const skill = skills[i];
       const strong = document.createElement('strong');
-      strong.textContent = skill.category + ': ';
       const p = document.createElement('p');
-      p.appendChild(strong);
+      const br = document.createElement('br');
+      
+      strong.textContent = skill.category;
+      p.append(strong, br);
+      p.style.marginBottom = '.3rem';
       p.insertAdjacentText('beforeend', skill.keywords.join(', '));
 
       article.appendChild(p);
-    });
-
+    }
+    
     sectionElmt.appendChild(article);
   }
 
