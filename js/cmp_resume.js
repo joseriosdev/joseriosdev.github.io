@@ -97,7 +97,7 @@ class SimpleResume extends HTMLElement
     fetch(`../resume_data/${jsonFileName}.json`)
       .then(response => response.json())
       .then(data => this.render(data))
-      .catch(e => alert('Failed loading resume data. Error: ' + e));
+      .catch(e => console.error('Failed loading resume data. Error: ' + e));
   }
 
   render(data)
@@ -105,7 +105,7 @@ class SimpleResume extends HTMLElement
     this.renderHeader(data.basics);
     this.renderExperience(data.work);
     this.renderProjects(data.projects);
-    this.renderSkills(data.skills);
+    this.renderSkills(data);
     this.renderEducation(data.education);
   }
 
@@ -286,12 +286,13 @@ class SimpleResume extends HTMLElement
     });
   }
 
-  renderSkills(skills)
+  renderSkills(data)
   {
+    const skills = data.skills;
     const sectionElmt = this.shadowRoot.getElementById('skills');
     sectionElmt.innerHTML = this.isSpanish
-      ? '<h2 title="Desarrollador FullStack"><span>H</span>ABILIDADES <span>T</span>ÉCNICAS</h2>'
-      : '<h2 title="FullStack Dev"><span>T</span>ECHNICAL <span>S</span>KILLS</h2>'
+      ? '<h2 title="Desarrollador FullStack"><span>H</span>ABILIDADES</h2>'
+      : '<h2 title="FullStack Dev"><span>S</span>KILLS</h2>'
     ;
     const article = document.createElement('article');
 
@@ -305,6 +306,20 @@ class SimpleResume extends HTMLElement
 
       article.appendChild(p);
     });
+
+    const strong = document.createElement('strong');
+    strong.textContent = this.isSpanish ? 'Idiomas: ' : 'Spoken Langs: '
+    const p = document.createElement('p');
+    p.appendChild(strong);
+    let langs = '';
+    for (let i = 0; i < data.basics.spoken_languages.length; i++)
+    {
+      const lang = data.basics.spoken_languages[i];
+      langs += `${lang.language} (${lang.level})${i === data.basics.spoken_languages.length - 1 ? '' : ' – '}`;
+    }
+    p.insertAdjacentText('beforeend', langs);
+
+    article.appendChild(p);
 
     sectionElmt.appendChild(article);
   }
@@ -330,7 +345,7 @@ class SimpleResume extends HTMLElement
       header.append(h3, location);
 
       footer.classList.add('flex-btwn');
-      h4.appendChild(Object.assign(document.createElement('em'), { textContent: `${study.type} of ${study.title}` }));
+      h4.appendChild(Object.assign(document.createElement('em'), { textContent: `${study.type} ${this.isSpanish ? 'en' : 'of'} ${study.title}` }));
       startEndDates.appendChild(Object.assign(document.createElement('em'), { textContent: `${study.start_date} - ${study.end_date}` }));
       footer.append(h4, startEndDates);
 

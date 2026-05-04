@@ -21,19 +21,27 @@
   "skills": [
     {
       "category": "Languages",
+      "is_soft_skill": false,
       "keywords": ["C#", "JavaScript", "HTML/CSS", "SQL", "Apex"]
     },
     {
       "category": "Frameworks",
-      "keywords": [".NET", "React", "Web Components", "SASS", "Salesforce", "LWC"]
+      "is_soft_skill": false,
+      "keywords": ["React", ".NET", "Web Components", "SASS", "Salesforce", "LWC"]
     },
     {
       "category": "Developer Tools",
-      "keywords": ["Git", "GitHub/Azure/GitLab", "SQL Server", "MongoDB", "Visual Studio", "VS Code", "Unity"]
+      "is_soft_skill": false,
+      "keywords": ["Git", "Cursor", "SQL Server", "MongoDB", "Visual Studio", "VS Code", "Unity"]
     },
     {
       "category": "Libraries & More",
       "keywords": ["MS Graph", "Bootstrap", "REST APIs", "GraphQL", "EDI Parsing", "MongoDB", "Design Principles", "Design Patterns", "ERP", "CRM"]
+    },
+    {
+      "category": "Soft Skills",
+      "is_soft_skill": true,
+      "keywords": ["Team Work", "Teaching", "Documentation Writer"]
     }
   ],
   "work": [

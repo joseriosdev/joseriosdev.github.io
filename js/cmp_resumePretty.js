@@ -108,10 +108,16 @@ sheet.replaceSync(`
     font-size: 1.3rem;
   }
 
-  .flex-btwn2 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .profile-pic {
+    margin: 0 auto;
+    display: block;
+    width: 180px;
+    height: 240px;
+    border: solid white 5px;
+    border-radius: 30%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    cursor: pointer;
   }
 
   @media print {
@@ -151,8 +157,10 @@ class PrettyResume extends HTMLElement
         
           <div class="content">
             <aside class="sidebar">
-              <section class="section-title-sidebar main-section" id="p-skills"></section>
-              <figure id="p-img"></figure>
+              <section class="section-title-sidebar" id="p-skills"></section>
+              <section id="p-img">
+                <figure><img class="profile-pic" src="../media/profile_pic.jpg"></figure>
+              </section>
               <section class="section-title-sidebar" id="p-edu"></section>
             </aside>
           
@@ -181,8 +189,8 @@ class PrettyResume extends HTMLElement
     this.renderHeader(data.basics);
     this.renderAbout(data.basics.summary);
     this.renderExperience(data.work);
-    this.renderSkills(data.skills);
-    // this.renderEducation(data.education);
+    this.renderSkills(data);
+    this.renderEducation(data.education);
   }
 
   async formatGreeting()
@@ -235,6 +243,13 @@ class PrettyResume extends HTMLElement
   async renderHeader(basics)
   {
     basics.name = basics.first_name + ' ' + basics.last_name;
+    const initMsg = await this.formatGreeting();
+    const bubbleMessages = this.isSpanish
+      ? [initMsg,'Este sitio fue hecho con Web Components y eventualmente tendrá un juego secreto.','Sabías que un hombre dijo: "Yo Soy la Vida"? mucha gente le creyó, fue un mentiroso? loco? o decía la Verdad?']
+      : [initMsg,'This site was coded with Web Components and will have a hiddin game at some point.','Did you know that a man said: "I am the life"? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?'];
+    const greeting = this.isSpanish ? '¡Hola!' : 'Hey There,';
+    const title = this.isSpanish ? 'Haz click aquí' : 'Click Me';
+    
     const nameElmt = this.shadowRoot.getElementById('p-name');
     const titleElmt = this.shadowRoot.getElementById('p-title');
     const locationElmt = this.shadowRoot.getElementById('p-loc');
@@ -246,8 +261,25 @@ class PrettyResume extends HTMLElement
     
     nameElmt.prepend(basics.first_name.toUpperCase() + '  ');
     nameElmt.querySelector('span').textContent = basics.last_name.toUpperCase();
-    titleElmt.textContent = basics.title;
+    
 
+    // if (nameElmt)
+    // {
+    //   nameElmt.innerHTML = `
+    //     <dialog-bubble
+    //       title="${title}"
+    //       greeting="${greeting}"
+    //       avatar="../media/profile_pic.jpg"
+    //       messages='${JSON.stringify(bubbleMessages)}'>
+    //       <h1></h1>
+    //     </dialog-bubble>
+    //   `;
+    //   const h1Elmt = nameElmt.querySelector('h1');
+    //   h1Elmt.prepend(basics.first_name.toUpperCase() + '  ');
+    //   h1Elmt.querySelector('span').textContent = basics.last_name.toUpperCase();
+    // }
+
+    titleElmt.textContent = basics.title;
     locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code}`;
     locationElmt.title = this.isSpanish ? `¿Dónde queda ${basics.location.city}?` : `Where's ${basics.location.city} located?`;
     locationElmt.href = `https://www.google.com/maps/place/${basics.location.city},+${basics.location.country_code}`;
@@ -315,8 +347,9 @@ class PrettyResume extends HTMLElement
     sectionElmt.appendChild(article);
   }
 
-  renderSkills(skills)
+  renderSkills(data)
   {
+    const skills = data.skills;
     const sectionElmt = this.shadowRoot.getElementById('p-skills');
     sectionElmt.innerHTML = this.isSpanish
       ? '<h2 title="Desarrollador FullStack">HABILIDADES</h2>'
@@ -324,11 +357,15 @@ class PrettyResume extends HTMLElement
     ;
     const article = document.createElement('article');
 
-    // I want to show less skills in this version
+    // I want to show less skills in this version and the soft skills
     const skillsArr = [];
-    for (let i = 0; i < skills.length - 1; i++)
+    const skillsLim = 2;
+    for (let i = 0; i < skills.length; i++)
     {
       const skill = skills[i];
+
+      if (i >= skillsLim && !skills.is_soft_skill) continue;
+      
       const strong = document.createElement('strong');
       const p = document.createElement('p');
       const br = document.createElement('br');
@@ -340,38 +377,48 @@ class PrettyResume extends HTMLElement
 
       article.appendChild(p);
     }
+
+    const strong = document.createElement('strong');
+    const p = document.createElement('p');
+    const br = document.createElement('br');
+    
+    strong.textContent = this.isSpanish ? 'Idiomas' : 'Spoken Languages';
+    p.style.whiteSpace = 'pre-wrap';
+    p.append(strong, br);
+    p.style.marginBottom = '.3rem';
+    let langs = '';
+    for (let i = 0; i < data.basics.spoken_languages.length; i++)
+    {
+      const lang = data.basics.spoken_languages[i];
+      langs += `${lang.language}, ${lang.level.toLowerCase()}${i === data.basics.spoken_languages.length - 1 ? '' : '\n'}`;
+    }
+    p.insertAdjacentText('beforeend', langs);
+
+    article.appendChild(p);
     
     sectionElmt.appendChild(article);
   }
 
   renderEducation(education)
   {
-    const sectionElmt = this.shadowRoot.getElementById('education');
-    sectionElmt.innerHTML = this.isSpanish ? '<h2><span>E</span>DUCACIÓN</h2>' : '<h2><span>E</span>DUCATION</h2>';
+    const sectionElmt = this.shadowRoot.getElementById('p-edu');
+    sectionElmt.innerHTML = this.isSpanish ? '<h2>EDUCACIÓN</h2>' : '<h2>EDUCATION</h2>';
 
-    education.forEach(study =>
-    {
-      const article = document.createElement('article');
-      const header = document.createElement('header');
-      const footer = document.createElement('footer');
-      const h3 = document.createElement('h3');
-      const h4 = document.createElement('h4');
-      const location = document.createElement('p');
-      const startEndDates = document.createElement('p');
+    const study = education[0];
+    const institution = document.createElement('p');
+    const title = document.createElement('p');
+    const startEndDates = document.createElement('p');
 
-      header.classList.add('flex-btwn');
-      h3.textContent = study.institution;
-      location.textContent = study.location;
-      header.append(h3, location);
+    title.textContent = `${study.type} ${this.isSpanish ? 'en' : 'of'} ${study.title}`.toUpperCase();
+    institution.textContent = study.institution + ', ' + study.location;
+    startEndDates.appendChild(Object.assign(document.createElement('em'), { textContent: `${study.start_date} - ${study.end_date}` }));
 
-      footer.classList.add('flex-btwn');
-      h4.appendChild(Object.assign(document.createElement('em'), { textContent: `${study.type} of ${study.title}` }));
-      startEndDates.appendChild(Object.assign(document.createElement('em'), { textContent: `${study.start_date} - ${study.end_date}` }));
-      footer.append(h4, startEndDates);
+    sectionElmt.append(title, startEndDates, institution);
+  }
 
-      article.append(header, footer);
-      sectionElmt.appendChild(article);
-    });
+  renderProfilePic()
+  {
+
   }
 }
 
