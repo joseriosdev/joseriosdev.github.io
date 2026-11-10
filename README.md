@@ -14,6 +14,9 @@ It is optimized for **[Applicant Tracking Systems](https://en.wikipedia.org/wiki
 - [x] Custom greedings and curious facts
 - [x] Matching Pairs game
 
+### Saving as PDF
+Use the 💾 button (or `Ctrl`/`Cmd` + `P`), pick **Letter** paper, and uncheck **Headers and footers** so the browser does not stamp the page title, URL, and date onto the resume. That checkbox is a browser setting that no web page can change, but every browser remembers your choice after the first time.
+
 **Want to see the legacy version?**
 * go to [joseriosdev.github.io](https://joseriosdev.github.io/app_legacy/ "legacy version")
 

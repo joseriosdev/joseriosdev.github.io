@@ -1,5 +1,6 @@
 import KEYS from './constantKeys.js';
 import ApiCalls from './apiCalls.js';
+import GreetingBubble from './greetingBubble.js';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(`
@@ -157,14 +158,30 @@ sheet.replaceSync(`
     margin: 1.75rem 0;
   }
 
+  .photo-btn {
+    padding: 0;
+    background: none;
+    border: none;
+    line-height: 0;
+    cursor: pointer;
+  }
+
+  .photo-btn:focus-visible {
+    border-radius: 3.75rem;
+    outline: 2px solid var(--pretty-bar-bg);
+    outline-offset: 3px;
+  }
+
   .photo {
     width: 7.5rem;
     height: 10.5rem;
     border: 5px solid white;
     border-radius: 3.75rem;
     object-fit: cover;
-    filter: grayscale(1);
+    transition: filter .3s ease;
   }
+
+  .photo.is-grayscale { filter: grayscale(1); }
 
   .skill {
     padding-bottom: .4rem;
@@ -210,6 +227,28 @@ sheet.replaceSync(`
     transform: translate(-50%, -50%);
   }
 
+  /* Phones cannot hold the 34% sidebar: it squeezes the photo, the skills, and the language rows. */
+  @media screen and (max-width: 48rem) {
+    main { font-size: 10pt; }
+
+    .pretty-body {
+      grid-template-columns: 1fr;
+      padding-left: 0;
+    }
+
+    .sidebar,
+    .content { padding: 1.5rem 1.25rem; }
+
+    .language-row {
+      flex-wrap: wrap;
+      gap: 0 .75rem;
+    }
+
+    .language-level { font-size: 8.5pt; }
+
+    .skill-keywords { font-size: 8.5pt; }
+  }
+
   @media print {
     main {
       min-height: calc(var(--paper-h) - 1mm);
@@ -253,7 +292,9 @@ class PrettyResume extends HTMLElement
               <aside class="sidebar">
                 <section id="education"></section>
                 <div class="photo-frame">
-                  <img class="photo" id="photo" alt="">
+                  <button class="photo-btn" id="photo-btn">
+                    <img class="photo" id="photo" alt="">
+                  </button>
                 </div>
                 <section id="skills"></section>
                 <section id="languages"></section>
@@ -292,6 +333,7 @@ class PrettyResume extends HTMLElement
     render(data)
     {
         this.renderHeader(data.basics);
+        this.renderNameBubble();
         this.renderAbout(data.basics.summary);
         this.renderExperience(data.work);
         this.renderProjects(data.projects);
@@ -307,6 +349,7 @@ class PrettyResume extends HTMLElement
         const linkedinElmt = this.shadowRoot.getElementById('linkedin');
         const githubElmt = this.shadowRoot.getElementById('github');
         const photoElmt = this.shadowRoot.getElementById('photo');
+        const photoBtnElmt = this.shadowRoot.getElementById('photo-btn');
 
         this.shadowRoot.getElementById('first-name').textContent = firstName;
         this.shadowRoot.getElementById('last-name').textContent = lastNames.join(' ');
@@ -322,6 +365,31 @@ class PrettyResume extends HTMLElement
 
         photoElmt.src = './public/images/profile_pic.jpg';
         photoElmt.alt = basics.name;
+
+        photoBtnElmt.title = this.pickLang('Click for black and white', 'Haz clic para blanco y negro');
+        photoBtnElmt.setAttribute('aria-label', photoBtnElmt.title);
+        photoBtnElmt.onclick = () => this.togglePhotoColor();
+    }
+
+    togglePhotoColor()
+    {
+        const photoElmt = this.shadowRoot.getElementById('photo');
+        const photoBtnElmt = this.shadowRoot.getElementById('photo-btn');
+        const isGrayscale = photoElmt.classList.toggle('is-grayscale');
+
+        photoBtnElmt.title = isGrayscale
+            ? this.pickLang('Click for color', 'Haz clic para color')
+            : this.pickLang('Click for black and white', 'Haz clic para blanco y negro');
+        photoBtnElmt.setAttribute('aria-label', photoBtnElmt.title);
+    }
+
+    async renderNameBubble()
+    {
+        const headingElmt = this.shadowRoot.querySelector('.pretty-header h1');
+        const bubbleElmt = await GreetingBubble.create(this.isSpanish);
+
+        headingElmt.replaceWith(bubbleElmt);
+        bubbleElmt.append(headingElmt);
     }
 
     renderAbout(summary)

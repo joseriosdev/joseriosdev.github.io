@@ -2,6 +2,8 @@ import KEYS from './constantKeys.js';
 
 const LOGOS_PATH = './public/images/game/';
 const FLIP_BACK_DELAY_MS = 800;
+const FLIP_RATE_MIN = .85;
+const FLIP_RATE_MAX = 1.2;
 const TECH_LOGOS = Object.freeze([
     { name: 'Salesforce', file: 'salesforce.png' },
     { name: 'JavaScript', file: 'javascript.png' },
@@ -288,8 +290,17 @@ class MatchingGame extends HTMLElement
         this.matchedPairs = 0;
         this.startTime = null;
         this.timerId = null;
-        this.audioClick = new Audio('./public/audio/btn-click.mp3');
-        this.audioClick.load();
+        this.audioFlip = new Audio('./public/audio/card-flip.wav');
+        this.audioPair = new Audio('./public/audio/done-sound.mp3');
+        this.audioWin = new Audio('./public/audio/tada.wav');
+        this.audioFlip.volume = .75;
+        this.audioWin.volume = .5;
+        /* Without this the browser keeps the pitch and only playbackRate would change the speed. */
+        this.audioFlip.preservesPitch = false;
+        this.audioFlip.webkitPreservesPitch = false;
+        this.audioFlip.load();
+        this.audioPair.load();
+        this.audioWin.load();
         this.shadowRoot.innerHTML = `
           <dialog id="game-dialog" aria-labelledby="game-title">
             <div class="game-content">
@@ -350,6 +361,18 @@ class MatchingGame extends HTMLElement
     pickLang(englishText, spanishText)
     {
         return this.isSpanish ? spanishText : englishText;
+    }
+
+    playSound(audioElmt)
+    {
+        audioElmt.currentTime = 0;
+        audioElmt.play();
+    }
+
+    playFlipSound()
+    {
+        this.audioFlip.playbackRate = FLIP_RATE_MIN + Math.random() * (FLIP_RATE_MAX - FLIP_RATE_MIN);
+        this.playSound(this.audioFlip);
     }
 
     open()
@@ -415,8 +438,7 @@ class MatchingGame extends HTMLElement
         if (this.isLocked || cardElmt.classList.contains('is-flipped')) return;
         if (!this.startTime) this.startTimer();
 
-        this.audioClick.currentTime = 0;
-        this.audioClick.play();
+        this.playFlipSound();
         cardElmt.classList.add('is-flipped');
         cardElmt.setAttribute('aria-label', cardElmt.dataset.name);
         this.flippedCards.push(cardElmt);
@@ -437,7 +459,13 @@ class MatchingGame extends HTMLElement
             this.matchedPairs++;
             this.updateStats();
 
-            if (this.matchedPairs === TECH_LOGOS.length) this.finishGame();
+            if (this.matchedPairs === TECH_LOGOS.length)
+            {
+                this.finishGame();
+                return;
+            }
+
+            this.playSound(this.audioPair);
             return;
         }
 
@@ -481,6 +509,7 @@ class MatchingGame extends HTMLElement
         const winPanelElmt = this.shadowRoot.getElementById('win-panel');
 
         this.stopTimer();
+        this.playSound(this.audioWin);
         this.shadowRoot.getElementById('time').textContent = totalTime;
         this.shadowRoot.getElementById('win-text').textContent = this.pickLang(
             `You matched all ${TECH_LOGOS.length} pairs in ${this.moves} moves and ${totalTime}.`,

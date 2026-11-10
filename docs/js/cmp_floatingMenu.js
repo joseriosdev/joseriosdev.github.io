@@ -1,5 +1,7 @@
 import KEYS from './constantKeys.js';
 
+const HINT_VISIBLE_MS = 8000;
+
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(`
   :host {
@@ -151,13 +153,42 @@ sheet.replaceSync(`
     fill: currentColor;
   }
 
-  .unable-btn::after {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, .5);
-    border-radius: 50%;
-    content: '';
+  .unable-btn {
+    background: #9e9e9e;
+    border-color: #777;
+    font-family: inherit;
+    font-size: 15pt;
+    font-weight: 700;
+    color: #2b2b2b;
+  }
+
+  .unable-btn:hover {
+    background: #b5b5b5;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .35);
+  }
+
+  .hint-bubble {
+    align-self: flex-end;
+    width: min(18rem, calc(100vw - 3.75rem));
+    padding: .625rem .75rem;
+    background: #333;
+    border-radius: .5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+    font-size: 9pt;
+    line-height: 1.4;
+    color: white;
+    animation: hint-in .25s ease-out;
+  }
+
+  @keyframes hint-in {
+    from {
+      opacity: 0;
+      transform: translateY(.625rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `);
 
@@ -169,8 +200,13 @@ class FloatingMenu extends HTMLElement
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.adoptedStyleSheets = [sheet];
         this.isOpen = false;
+        this.isSpanish = false;
+        this.gameHintIndex = 0;
+        this.hintTimerId = null;
         this.audioClick = new Audio('./public/audio/btn-click.mp3');
+        this.audioUnlock = new Audio('./public/audio/done-sound.mp3');
         this.audioClick.load();
+        this.audioUnlock.load();
         this.shadowRoot.innerHTML = `
           <div class="menu-container">
             <button class="menu-btn">
@@ -204,19 +240,23 @@ class FloatingMenu extends HTMLElement
                 id="daily-verse-btn"
                 label-lang-es="Versículo del día"
                 label-lang-en="Daily verse">📜</button>
-              <button class="sub-btn game-btn"
+              <button class="sub-btn game-btn unable-btn"
                 data-label=""
                 id="game-btn"
-                label-lang-es="¡Jugar!"
-                label-lang-en="Play!"
-                hidden>🎮</button>
+                label-lang-es="Misterio"
+                label-lang-en="Mystery"
+                content-lang-es="?"
+                content-lang-en="?">?</button>
             </div>
+
+            <p class="hint-bubble" id="game-hint" role="status" hidden></p>
           </div>
         `;
     }
 
     connectedCallback()
     {
+        this.isSpanish = this.getAttribute('menu-lang') === KEYS.LANG_SPANISH;
         this.shadowRoot.querySelector('.menu-btn').onclick = () => this.toggleMenu();
         this.shadowRoot.getElementById('save-pdf-btn').onclick = () => this.savePdf();
         this.shadowRoot.getElementById('lang-change-btn').onclick = () => this.toggleLanguage();
@@ -225,6 +265,11 @@ class FloatingMenu extends HTMLElement
         this.shadowRoot.getElementById('daily-verse-btn').onclick = () => this.openDailyVerse();
         this.shadowRoot.getElementById('game-btn').onclick = () => this.openGame();
         this.updateGameButton();
+    }
+
+    disconnectedCallback()
+    {
+        clearTimeout(this.hintTimerId);
     }
 
     openDailyVerse()
@@ -237,7 +282,39 @@ class FloatingMenu extends HTMLElement
     openGame()
     {
         this.audioClick.play();
+
+        if (!this.isGameUnlocked())
+        {
+            this.showGameHint();
+            return;
+        }
         this.dispatchEvent(new CustomEvent(KEYS.EVENT_GAME_OPEN));
+    }
+
+    showGameHint()
+    {
+        const hintElmt = this.shadowRoot.getElementById('game-hint');
+        const isFirstHint = this.gameHintIndex === 0;
+
+        hintElmt.textContent = isFirstHint
+            ? this.pickLang(
+                'This site has a secret game, explore the site to unlock it.',
+                'Este sitio tiene un juego secreto, explora el sitio para desbloquearlo.')
+            : this.pickLang(
+                'I\'ll help you find it: click on my name, read through all three messages, and click the "Daily verse" button.',
+                'Te ayudo a encontrarlo: haz clic en mi nombre, lee los tres mensajes y haz clic en el botón "Versículo del día".');
+        hintElmt.hidden = false;
+        this.gameHintIndex = 1;
+
+        clearTimeout(this.hintTimerId);
+        this.hintTimerId = setTimeout(() => this.hideGameHint(), HINT_VISIBLE_MS);
+    }
+
+    hideGameHint()
+    {
+        clearTimeout(this.hintTimerId);
+        this.hintTimerId = null;
+        this.shadowRoot.getElementById('game-hint').hidden = true;
     }
 
     completeSecretStep(stepKey)
@@ -248,6 +325,9 @@ class FloatingMenu extends HTMLElement
         if (!wasUnlocked && this.isGameUnlocked())
         {
             this.shadowRoot.querySelector('.menu-btn').classList.add('has-news');
+            this.audioUnlock.currentTime = 0;
+            this.audioUnlock.play();
+            this.hideGameHint();
         }
         this.updateGameButton();
     }
@@ -260,7 +340,20 @@ class FloatingMenu extends HTMLElement
 
     updateGameButton()
     {
-        this.shadowRoot.getElementById('game-btn').hidden = !this.isGameUnlocked();
+        const gameBtnElmt = this.shadowRoot.getElementById('game-btn');
+        const isUnlocked = this.isGameUnlocked();
+
+        gameBtnElmt.classList.toggle('unable-btn', !isUnlocked);
+        gameBtnElmt.setAttribute('label-lang-es', isUnlocked ? '¡Jugar!' : 'Misterio');
+        gameBtnElmt.setAttribute('label-lang-en', isUnlocked ? 'Play!' : 'Mystery');
+        gameBtnElmt.setAttribute('content-lang-es', isUnlocked ? '🎮' : '?');
+        gameBtnElmt.setAttribute('content-lang-en', isUnlocked ? '🎮' : '?');
+        this.setMenuLanguage(this.isSpanish ? KEYS.LANG_SPANISH : KEYS.LANG_DEFAULT);
+    }
+
+    pickLang(englishText, spanishText)
+    {
+        return this.isSpanish ? spanishText : englishText;
     }
 
     savePdf()
@@ -276,6 +369,7 @@ class FloatingMenu extends HTMLElement
         this.shadowRoot.querySelector('.menu-items').classList.toggle('open', this.isOpen);
         mainBtnElmt.classList.toggle('active', this.isOpen);
         mainBtnElmt.classList.remove('has-news');
+        this.hideGameHint();
         this.audioClick.play();
     }
 
@@ -328,6 +422,7 @@ class FloatingMenu extends HTMLElement
     setMenuLanguage(lang)
     {
         const menuLang = lang === KEYS.LANG_SPANISH ? KEYS.LANG_SPANISH : KEYS.LANG_DEFAULT;
+        this.isSpanish = menuLang === KEYS.LANG_SPANISH;
 
         this.shadowRoot.querySelectorAll('.sub-btn').forEach(btnElmt =>
         {

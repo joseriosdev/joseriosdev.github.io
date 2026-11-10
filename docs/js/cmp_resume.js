@@ -1,5 +1,6 @@
 import KEYS from './constantKeys.js';
 import ApiCalls from './apiCalls.js';
+import GreetingBubble from './greetingBubble.js';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(`
@@ -122,99 +123,17 @@ class SimpleResume extends HTMLElement
         this.renderEducation(data.education);
     }
 
-    async formatGreeting()
-    {
-        const { city, timezone, country } = await ApiCalls.getLocation();
-
-        const hour = new Intl.DateTimeFormat(this.isSpanish ? KEYS.LANG_SPANISH : KEYS.LANG_DEFAULT,
-        {
-            hour: 'numeric',
-            hour12: false,
-            timeZone: timezone
-        }).format(new Date());
-
-        let timeOfDay;
-        if (hour >= 5 && hour < 12)
-        {
-            timeOfDay = this.isSpanish ? 'Buenos días' : 'Good morning';
-        }
-        else if (hour >= 12 && hour < 18)
-        {
-            timeOfDay = this.isSpanish ? 'Buenas tardes' : 'Good afternoon';
-        }
-        else
-        {
-            timeOfDay = this.isSpanish ? 'Buenas noches' : 'Good evening';
-        }
-
-        const weatherData = await ApiCalls.getWeather(city, country);
-        const celsiusTemp = weatherData.main.feels_like;
-        const freezingLim = 1;
-        const coldLim = 12;
-        const coolLim = 23;
-        const warmLim = 31;
-        let tempFeel = null;
-        console.log(`city: ${city}, country: ${country}, temperature: ${celsiusTemp}`);
-
-        if (celsiusTemp < freezingLim)
-        {
-            tempFeel = this.isSpanish ? 'helado' : 'freezing';
-        }
-        else if (celsiusTemp < coldLim)
-        {
-            tempFeel = this.isSpanish ? 'frío' : 'cold';
-        }
-        else if (celsiusTemp < coolLim)
-        {
-            tempFeel = this.isSpanish ? 'fresco' : 'cool';
-        }
-        else if (celsiusTemp < warmLim)
-        {
-            tempFeel = this.isSpanish ? 'cálido' : 'warm';
-        }
-        else
-        {
-            tempFeel = this.isSpanish ? 'caliente' : 'hot';
-        }
-
-        if (this.isSpanish)
-        {
-            return `${timeOfDay}. Espero que todo vaya bien en ${city}, se ve que está ${tempFeel} por allá.`;
-        }
-        return `${timeOfDay}. Hope everything goes well in ${city}, looks ${tempFeel} there.`;
-    }
-
     async renderHeader(basics)
     {
-        const initMsg = await this.formatGreeting();
-        const bubbleMessages = this.isSpanish
-            ? [
-                initMsg,
-                'Este sitio fue hecho con Web Components y eventualmente tendrá un juego secreto.',
-                'Sabías que un hombre dijo: "Yo Soy la Vida"? mucha gente le creyó, fue un mentiroso? loco? o decía la Verdad?'
-            ]
-            : [
-                initMsg,
-                'This site was coded with Web Components and will have a hiddin game at some point.',
-                'Did you know that a man said: "I am the life"? and many people beleived Him, was he a liar? mad man? or was he saying the Truth?'
-            ];
-        const greeting = this.isSpanish ? '¡Hola!' : 'Hey There,';
-        const title = this.isSpanish ? 'Haz click aquí' : 'Click Me';
         const nameElmt = this.shadowRoot.getElementById('name');
-        const bubbleElmt = document.createElement('dialog-bubble');
+        const nameHeadingElmt = createTextElmt('h1', basics.name);
         const titleElmt = this.shadowRoot.getElementById('title');
         const locationElmt = this.shadowRoot.getElementById('location');
         const emailElmt = this.shadowRoot.getElementById('email');
         const linkedinElmt = this.shadowRoot.getElementById('linkedin');
         const githubElmt = this.shadowRoot.getElementById('github');
 
-        bubbleElmt.setAttribute('title', title);
-        bubbleElmt.setAttribute('greeting', greeting);
-        bubbleElmt.setAttribute('avatar', './public/images/profile_pic.jpg');
-        bubbleElmt.setAttribute('messages', JSON.stringify(bubbleMessages));
-        bubbleElmt.append(createTextElmt('h1', basics.name));
-        nameElmt.append(bubbleElmt);
-
+        nameElmt.append(nameHeadingElmt);
         titleElmt.textContent = basics.title;
         locationElmt.textContent = `${basics.location.city}, ${basics.location.country_code}`;
 
@@ -229,6 +148,10 @@ class SimpleResume extends HTMLElement
         githubElmt.textContent = basics.profiles.github.replace('https://', '');
         githubElmt.href = basics.profiles.github;
         githubElmt.title = this.isSpanish ? `Abrir GitHub de ${basics.name}` : `Open ${basics.name}'s GitHub`;
+
+        const bubbleElmt = await GreetingBubble.create(this.isSpanish);
+        nameHeadingElmt.replaceWith(bubbleElmt);
+        bubbleElmt.append(nameHeadingElmt);
     }
 
     renderExperience(jobs)
