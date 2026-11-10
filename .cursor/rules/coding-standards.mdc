@@ -1,14 +1,14 @@
 ---
 description: JavaScript, CSS, and HTML coding standards for the resume app
-globs: app/**/*.js,app/**/*.css,app/**/*.html
+globs: docs/**/*.js,docs/**/*.css,docs/**/*.html
 alwaysApply: false
 ---
 
 # Coding Standards
 
-Vanilla HTML, CSS, and JavaScript only. These standards do not apply to `app/app_legacy/`.
+Vanilla HTML, CSS, and JavaScript only. These standards do not apply to `docs/app_legacy/`.
 
-## JavaScript Style (`app/js`)
+## JavaScript Style (`docs/js`)
 
 ES modules, no TypeScript, no React, no bundler, no npm packages.
 
@@ -39,12 +39,12 @@ ES modules, no TypeScript, no React, no bundler, no npm packages.
 - Semicolons. Spaces around operators and after `if`, `for`, and `catch`.
 - `async` / `await` for `fetch`. Small helpers may be arrow functions.
 
-## CSS Style (`app/main.css` and component styles)
+## CSS Style (`docs/main.css` and component styles)
 
 Plain CSS only. No preprocessors (SCSS, Less), no frameworks (Bootstrap, Tailwind), no CSS-in-JS libraries.
 
 ### Where styles live
-- `app/main.css` holds only global styles: the reset, `:root` custom properties, the page `body`, and global `@media print` / `@page` rules.
+- `docs/main.css` holds only global styles: the reset, `:root` custom properties, the page `body`, and global `@media print` / `@page` rules.
 - Component styles live in the component file, never in `main.css`.
 - Prefer a constructable stylesheet declared once at module level and shared by every instance:
 
@@ -109,12 +109,12 @@ h3 { font-size: calc(var(--font-main-size) + 1pt); }
 - Never put resume text in `::before` / `::after` `content`, background images, or icons only. ATS parsers read the DOM text, not the pixels.
 - Do not reorder content visually (`order`, absolute positioning) so it differs from the DOM order.
 
-## HTML Style (`app/index.html` and component markup)
+## HTML Style (`docs/index.html` and component markup)
 
 Plain HTML5. No templating engines.
 
 ### The index page
-- `app/index.html` is the only page of the app. Content is rendered by the components, not written in the page.
+- `docs/index.html` is the only page of the app. Content is rendered by the components, not written in the page.
 - `<body>` contains only module scripts; `main.js` creates and mounts the custom elements.
 - Load every script as a module with a relative path:
 
@@ -126,7 +126,7 @@ Plain HTML5. No templating engines.
 - Keep the structured data and the meta descriptions consistent with `data/english.json` (name, job title, location, profiles).
 
 ### Paths
-- Paths are relative to `app/index.html`, also inside component files (the browser resolves them from the document, not the script).
+- Paths are relative to `docs/index.html`, also inside component files (the browser resolves them from the document, not the script).
 - Media comes from `../public/images/` and `../public/audio/`. Resume data comes from `../data/`.
 - Social preview images (`og:image`, `twitter:image`) must be absolute `https://` URLs.
 

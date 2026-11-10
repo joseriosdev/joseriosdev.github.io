@@ -22,7 +22,7 @@ It is optimized for **[Applicant Tracking Systems](https://en.wikipedia.org/wiki
 - **State Management:** Minimun.
 
 ## Directory Structure
-- `app/` - Contains all routing, page components, and API routes. Even the index.
+- `docs/` - Contains all routing, page components, and API routes. Even the index.
 - `data/` - Json files that holds the data of the CVs in both Spanish and English.
 - `public/` - All media files like audios and images.
 

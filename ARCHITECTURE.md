@@ -32,13 +32,13 @@ Coding conventions are mandatory and live in [`.cursor/rules/coding-standards.md
 ├── AGENTS.md                      Agent rules and project context
 ├── ARCHITECTURE.md                This file
 ├── README.md                      Public description and feature checklist
-├── .cursorignore                  Hides app/app_legacy/ from AI indexing
+├── .cursorignore                  Hides docs/app_legacy/ from AI indexing
 ├── .cursor/
 │   ├── rules/coding-standards.mdc JavaScript, CSS, and HTML standards
 │   └── skills/resumes-lang-validation/
 │       ├── SKILL.md               "translate" skill: syncs spanish.json from english.json
 │       └── scripts/compare-keys.ps1  Structure check between both JSON files
-├── app/
+├── docs/
 │   ├── index.html                 The only page of the app (entry point)
 │   ├── main.css                   Global styles and design tokens
 │   ├── js/
@@ -65,22 +65,22 @@ Coding conventions are mandatory and live in [`.cursor/rules/coding-standards.md
 
 ## 4. Running locally
 
-The site must be served over HTTP from the **repository root** (ES modules and `fetch` do not work from `file://`). All runtime paths go up one level from `app/` (`../data/`, `../public/`).
+The site must be served over HTTP from the **repository root** (ES modules and `fetch` do not work from `file://`). All runtime paths go up one level from `docs/` (`../data/`, `../public/`).
 
 Any static server works, for example `npx serve .` or `python -m http.server` from the repo root, then open:
 
 | URL | Result |
 |---|---|
-| `/app/index.html` | ATS version, English |
-| `/app/index.html?lang=es` | ATS version, Spanish |
-| `/app/index.html?view=pretty` | Pretty version, English |
-| `/app/index.html?view=pretty&lang=es` | Pretty version, Spanish |
+| `/docs/index.html` | ATS version, English |
+| `/docs/index.html?lang=es` | ATS version, Spanish |
+| `/docs/index.html?view=pretty` | Pretty version, English |
+| `/docs/index.html?view=pretty&lang=es` | Pretty version, Spanish |
 
 Production is GitHub Pages at `https://joseriosdev.github.io/`. Social preview images in `index.html` assume the repo root is the site root (`https://joseriosdev.github.io/public/images/profile_pic.jpg`).
 
 ## 5. Boot sequence and routing
 
-1. The browser loads `app/index.html`. `<body>` contains only module scripts: `main.js`, `cmp_floatingMenu.js`, `cmp_dialogBubble.js`, `cmp_resume.js`, `cmp_prettyResume.js`, `cmp_dailyVerse.js`, `cmp_matchingGame.js`.
+1. The browser loads `docs/index.html`. `<body>` contains only module scripts: `main.js`, `cmp_floatingMenu.js`, `cmp_dialogBubble.js`, `cmp_resume.js`, `cmp_prettyResume.js`, `cmp_dailyVerse.js`, `cmp_matchingGame.js`.
 2. Each `cmp_*.js` module registers its custom element with `customElements.define`.
 3. Module scripts are deferred, so all elements are defined before `DOMContentLoaded`. On that event (and on `popstate`), `main.js` runs `router()`.
 4. `router()`:
@@ -270,7 +270,7 @@ All components follow the same lifecycle: `constructor` attaches an open shadow 
 ### 8.4 `<dialog-bubble>`, `cmp_dialogBubble.js`
 
 - **Attributes:** `avatar` (image URL), `greeting` (bubble title), `messages` (JSON array of strings), `title` (native tooltip). Slot: the element it decorates (the `<h1>` name).
-- **Behavior:** on host hover, a dark translucent bubble with a top arrow fades in below the slotted content, showing the avatar, the greeting, the current message, ‹ › navigation buttons, and an `n / total` counter. Navigation plays a roulette sound (`app/app_legacy/assets/roulette-wheel-spin-single.mp3`).
+- **Behavior:** on host hover, a dark translucent bubble with a top arrow fades in below the slotted content, showing the avatar, the greeting, the current message, ‹ › navigation buttons, and an `n / total` counter. Navigation plays a roulette sound (`docs/app_legacy/assets/roulette-wheel-spin-single.mp3`).
 - **Completion event:** the first time the counter reaches the last message, it dispatches `bubble-messages-complete` with `bubbles: true, composed: true` so it crosses the `<simple-resume>` shadow boundary. Only the ATS version has the bubble, so this secret step can only be completed there.
 
 ### 8.5 `<daily-verse>` (daily Bible verse modal), `cmp_dailyVerse.js`
@@ -301,7 +301,7 @@ All components follow the same lifecycle: `constructor` attaches an open shadow 
 
 ## 9. Styling
 
-- **Global (`app/main.css`):** CSS reset, page background (dark vertical gradient), print rules (`@page { size: letter portrait; margin: 0 }`, hide `fab-menu`), and design tokens:
+- **Global (`docs/main.css`):** CSS reset, page background (dark vertical gradient), print rules (`@page { size: letter portrait; margin: 0 }`, hide `fab-menu`), and design tokens:
 
 | Token | Value | Used by |
 |---|---|---|
@@ -330,7 +330,7 @@ All components follow the same lifecycle: `constructor` attaches an open shadow 
 
 ## 12. AI agent tooling
 
-- **`.cursor/rules/coding-standards.mdc`:** applied automatically to `app/**/*.js|css|html`.
+- **`.cursor/rules/coding-standards.mdc`:** applied automatically to `docs/**/*.js|css|html`.
 - **`translate` skill (`.cursor/skills/resumes-lang-validation/`):** when the user says "translate", the agent runs `scripts/compare-keys.ps1`, fixes `spanish.json` to mirror `english.json`'s structure, re-translates changed text (keeping technical terms in English and verbatim fields untouched), and reports typos found in the English source.
 
 ## 13. Rebuild guide
@@ -340,7 +340,7 @@ To recreate the site from nothing, in this order:
 1. Create the directory structure from section 3 and the two JSON files with the schema from section 7.
 2. Write `main.css` with the tokens and print rules from section 9.
 3. Write `constantKeys.js` and `apiCalls.js` (section 6).
-4. Build `<dialog-bubble>`, then `<simple-resume>` (sections 8.4, 8.1). Verify `/app/index.html` and `?lang=es`.
+4. Build `<dialog-bubble>`, then `<simple-resume>` (sections 8.4, 8.1). Verify `/docs/index.html` and `?lang=es`.
 5. Build `<pretty-resume>` with the layout, themes, and print rules from section 8.2. Verify `?view=pretty`.
 6. Build `<daily-verse>` (section 8.5) and `<matching-game>` (section 8.6).
 7. Build `<fab-menu>` (section 8.3) and `main.js` (section 5). Verify every menu button, theme persistence after reload, the verse modal on desktop and phone widths, the game unlock (clear `localStorage`, open the verse, read all bubble messages, 🎮 appears) and the board in landscape and portrait, and print preview (Letter, margins none) in both versions and both languages.

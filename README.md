@@ -15,7 +15,7 @@ It is optimized for **[Applicant Tracking Systems](https://en.wikipedia.org/wiki
 - [x] Matching Pairs game
 
 **Want to see the legacy version?**
-* go to [joseriosdev.github.io](https://joseriosdev.github.io/app/app_legacy/ "legacy version")
+* go to [joseriosdev.github.io](https://joseriosdev.github.io/app_legacy/ "legacy version")
 
 **_Coded with Love thanks to Him_**
 `For God sent not his Son into the world to condemn the world; but that the world through him might be saved.`
