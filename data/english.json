@@ -2,7 +2,7 @@
   "lang": "en",
   "basics": {
     "name": "Jose Rios",
-    "title": "Mid Web Developer",
+    "title": "Staff Engineer",
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
     "summary": "With over 5 years of experience in the IT industry, I am a proficient and disciplined Software Developer. My expertise relies on Salesforce and .NET Technologies. I Have fluent English, an active team player, with strong dedication to knowledge sharing. I love taking care of the business as I can by creating solutions and clear documentation to share the knowledge with my team mates.",
@@ -12,9 +12,9 @@
       "linkedin": "https://www.linkedin.com/in/joseriosdev"
     },
     "spoken_languages": [
-      { "language": "English", "level": "Proficient", "flag": "🇬🇧" },
-      { "language": "Español", "level": "Native", "flag": "🇪🇸" },
-      { "language": "Português", "level": "Conversational", "flag": "🇵🇹" }
+      { "language": "English", "level": "Proficient", "proficiency": 85, "flag": "🇬🇧" },
+      { "language": "Español", "level": "Native", "proficiency": 100, "flag": "🇪🇸" },
+      { "language": "Português", "level": "Conversational", "proficiency": 55, "flag": "🇵🇹" }
     ]
   },
   "skills": [

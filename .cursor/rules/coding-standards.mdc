@@ -1,0 +1,172 @@
+---
+description: JavaScript, CSS, and HTML coding standards for the resume app
+globs: app/**/*.js,app/**/*.css,app/**/*.html
+alwaysApply: false
+---
+
+# Coding Standards
+
+Vanilla HTML, CSS, and JavaScript only. These standards do not apply to `app/app_legacy/`.
+
+## JavaScript Style (`app/js`)
+
+ES modules, no TypeScript, no React, no bundler, no npm packages.
+
+### Files
+- One custom element per file. Name component files `cmp_<camelCase>.js`.
+- Class names are PascalCase. Custom element tags are kebab-case.
+- Register the element at the bottom of its file with `customElements.define`.
+- Shared string keys go in `constantKeys.js` as `export default Object.freeze({ ... })` and are imported as `KEYS`. Do not hardcode `'en'`, `'es'`, or `'lang'`.
+- HTTP calls go in `apiCalls.js` as `static async` methods. Components call `ApiCalls`, they do not call `fetch` for external APIs themselves.
+- `main.js` only routes and mounts elements. Do not put component markup there.
+
+### Components
+- Extend `HTMLElement`.
+- In `constructor`: `super()`, `this.attachShadow({ mode: 'open' })`, then set instance state and the shadow shell.
+- In `connectedCallback`: read attributes, load data, and bind events.
+- Configure a component through HTML attributes (`resume-lang`, `avatar`, `messages`), not through globals.
+- Keep markup, behavior, and styles for a component in that component's file.
+- Build the static shell with a template literal assigned to `shadowRoot.innerHTML`.
+- Build anything that comes from JSON with `document.createElement`, `textContent`, and `append`. Do not interpolate resume data into HTML strings.
+- Query the component's own DOM through `this.shadowRoot`.
+- Use `onclick` or `addEventListener` with an arrow function when the handler calls `this`.
+
+### Formatting
+- 4-space indentation (or a single tab of 4 spaces). Opening brace on its own line for functions, classes, and blocks.
+- `const` by default. `let` only when the value is reassigned.
+- camelCase for variables and methods. Booleans start with `is`. DOM nodes end with `Elmt` (`nameElmt`).
+- Single quotes for JavaScript strings. Template literals when the string interpolates or spans lines.
+- Semicolons. Spaces around operators and after `if`, `for`, and `catch`.
+- `async` / `await` for `fetch`. Small helpers may be arrow functions.
+
+## CSS Style (`app/main.css` and component styles)
+
+Plain CSS only. No preprocessors (SCSS, Less), no frameworks (Bootstrap, Tailwind), no CSS-in-JS libraries.
+
+### Where styles live
+- `app/main.css` holds only global styles: the reset, `:root` custom properties, the page `body`, and global `@media print` / `@page` rules.
+- Component styles live in the component file, never in `main.css`.
+- Prefer a constructable stylesheet declared once at module level and shared by every instance:
+
+```js
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(`
+  main {
+    padding: var(--paper-padding);
+  }
+`);
+
+// constructor
+this.shadowRoot.adoptedStyleSheets = [sheet];
+```
+
+- Do not style a component's internals from `main.css`. Shadow DOM blocks it; expose a custom property instead.
+
+### Custom properties (design tokens)
+- Declare shared values in `:root` in `main.css`: paper size, fonts, spacing, colors.
+- Name them kebab-case by purpose: `--paper-w`, `--font-main`, `--standard-margin`.
+- Components read tokens with `var()`. Derive sizes with `calc()` instead of new magic numbers:
+
+```css
+h2 {
+  margin-bottom: calc(var(--standard-margin) * .3);
+  font-size: calc(var(--font-main-size) - 2pt);
+}
+```
+
+- Component-only tokens go on `:host` with the component as prefix: `--bubble-bg`.
+
+### Units
+- Paper dimensions: `mm` / `cm` (it has to print to Letter size).
+- Font sizes: `pt`, based on `--font-main-size`.
+- Spacing: `rem` or multiples of `--standard-margin`.
+- `px` only for hairlines (borders, letter-spacing).
+
+### Selectors
+- Element selectors inside shadow DOM are fine; the shadow root scopes them.
+- Classes are kebab-case and describe layout or role: `.flex-btwn`, `.inline`.
+- IDs are hooks for JavaScript (`#experience`, `#title`). Avoid styling through IDs except for one-off containers.
+- Keep nesting shallow: two levels maximum (`h2 span`).
+- No `!important`.
+
+### Formatting
+- 2-space indentation. Space after the colon, semicolon after every declaration.
+- One declaration per line. A rule with a single short declaration may stay on one line:
+
+```css
+h3 { font-size: calc(var(--font-main-size) + 1pt); }
+```
+
+- Omit the leading zero in decimals: `.8rem`, `.5px`.
+- Lowercase hex colors (`#499fff`).
+- Quote font names with spaces in single quotes, and always end with a generic family: `'Crimson Pro', 'Times New Roman', Georgia, serif`.
+- Order declarations by group: position and display, box model (size, margin, padding), background and border, typography, everything else.
+- Comments use `/* */` and explain why, not what.
+
+### Print and ATS
+- The resume must look right on screen and when saved as PDF. Every visual change needs a check in print preview.
+- Hide interactive UI in `@media print` (`fab-menu`, dialogs, buttons).
+- Never put resume text in `::before` / `::after` `content`, background images, or icons only. ATS parsers read the DOM text, not the pixels.
+- Do not reorder content visually (`order`, absolute positioning) so it differs from the DOM order.
+
+## HTML Style (`app/index.html` and component markup)
+
+Plain HTML5. No templating engines.
+
+### The index page
+- `app/index.html` is the only page of the app. Content is rendered by the components, not written in the page.
+- `<body>` contains only module scripts; `main.js` creates and mounts the custom elements.
+- Load every script as a module with a relative path:
+
+```html
+<script type="module" src="./js/cmp_resume.js"></script>
+```
+
+- Group `<head>` content in this order, each group opened by an uppercase comment: `<!--BASICS-->` (meta, `charset` first), `<!--OPEN GRAPH-->`, `<!--TWITTER/X-->`, `<!--TITLE-->`, `<!--ICONS AND STYLESHEETS-->`, `<!--STRUCTURED DATA-->` (`application/ld+json`).
+- Keep the structured data and the meta descriptions consistent with `data/english.json` (name, job title, location, profiles).
+
+### Paths
+- Paths are relative to `app/index.html`, also inside component files (the browser resolves them from the document, not the script).
+- Media comes from `../public/images/` and `../public/audio/`. Resume data comes from `../data/`.
+- Social preview images (`og:image`, `twitter:image`) must be absolute `https://` URLs.
+
+### Semantics in component shells
+- One `<main>` per resume. Each resume block is a `<section>` with an `id` that the component fills (`#experience`, `#projects`, `#skills`, `#education`).
+- Repeated entries (a job, a study) are `<article>` elements.
+- Heading order without skipping levels: `<h1>` is the person's name, `<h2>` the section titles, `<h3>` the entry titles, `<h4>` details.
+- Lists of achievements or skills are `<ul>` / `<li>`, never line breaks.
+- No `<table>` for layout and no text inside images. ATS parsers must read every word.
+
+### Attributes
+- Lowercase element and attribute names. Double quotes for attribute values.
+- Custom attributes are kebab-case and configure components: `resume-lang`, `menu-lang`, `avatar`, `messages`.
+- Language pairs for controls that switch language: `label-lang-es` / `label-lang-en`, `content-lang-es` / `content-lang-en`.
+- Boolean attributes have no value: `<input disabled>`.
+- Void elements have no closing slash: `<link ...>`, `<img ...>`, `<meta ...>`.
+- Every `<img>` has an `alt`. Decorative icons get `aria-hidden="true"`.
+- Links that open a new tab use `target="_blank" rel="noopener noreferrer"`.
+- `<html lang>` must match the active language (`en` or `es`).
+
+### Formatting
+- 2-space indentation, one element per line for block elements.
+- Inline elements (`<a>`, `<span>`, `<em>`) may share a line with their text.
+- Comments use `<!--UPPERCASE TITLE-->` for section markers and are not used for dead code.
+
+### Example component shell
+
+```js
+this.shadowRoot.innerHTML = `
+  <main>
+    <section id="main-header">
+      <h1 id="name"></h1>
+      <p id="title"></p>
+      <p>
+        <span id="location"></span> |
+        <a href="#" target="_blank" rel="noopener noreferrer" id="email"></a>
+      </p>
+    </section>
+
+    <section id="experience"></section>
+  </main>
+`;
+```

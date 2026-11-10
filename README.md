@@ -9,13 +9,13 @@ It is optimized for **[Applicant Tracking Systems](https://en.wikipedia.org/wiki
 - [x] ATS Optimized Resume version
 - [x] Spanish and English versions
 - [x] Saving as PDF
-- [] Pretty Resume version
-- [] Daily Bible Verse
+- [x] Pretty Resume version
+- [x] Daily Bible Verse
 - [x] Custom greedings and curious facts
-- [] Matching Pairs game
+- [x] Matching Pairs game
 
 **Want to see the legacy version?**
-* go to [joseriosdev.github.io](https://joseriosdev.github.io/legacy/ "legacy version")
+* go to [joseriosdev.github.io](https://joseriosdev.github.io/app/app_legacy/ "legacy version")
 
 **_Coded with Love thanks to Him_**
 `For God sent not his Son into the world to condemn the world; but that the world through him might be saved.`

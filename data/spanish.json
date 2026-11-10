@@ -2,19 +2,19 @@
   "lang": "es",
   "basics": {
     "name": "Jose Rios",
-    "title": "Mid Web Developer",
+    "title": "Staff Engineer",
     "email": "joseriosdev@gmail.com",
     "phone": "+57 ???",
-    "summary": "Con más de 5 años de experiencia en la industria de TI, soy un desarrollador de software competente y disciplinado. Mi especialidad se centra en tecnologías Salesforce y .NET. Poseo un inglés fluido, soy un jugador de equipo activo y cuento con una sólida dedicación al intercambio de conocimientos. Me apasiona aportar valor al negocio mediante la creación de soluciones y documentación clara que facilite el aprendizaje compartido con mis compañeros.",
+    "summary": "Con más de 5 años de experiencia en la industria de TI, soy un desarrollador de software competente y disciplinado. Mi especialidad se centra en tecnologías Salesforce y .NET. Poseo un inglés fluido, soy un jugador de equipo activo y cuento con una sólida dedicación al intercambio de conocimientos. Me encanta cuidar del negocio en todo lo que puedo, creando soluciones y documentación clara para compartir el conocimiento con mis compañeros de equipo.",
     "location": { "city": "Barranquilla", "country_code": "CO" },
     "profiles": {
       "github": "https://github.com/joseriosdev",
       "linkedin": "https://www.linkedin.com/in/joseriosdev"
     },
     "spoken_languages": [
-      { "language": "English", "level": "Competente", "flag": "🇬🇧" },
-      { "language": "Español", "level": "Nativo", "flag": "🇪🇸" },
-      { "language": "Português", "level": "Conversacional", "flag": "🇵🇹" }
+      { "language": "English", "level": "Competente", "proficiency": 85, "flag": "🇬🇧" },
+      { "language": "Español", "level": "Nativo", "proficiency": 100, "flag": "🇪🇸" },
+      { "language": "Português", "level": "Conversacional", "proficiency": 55, "flag": "🇵🇹" }
     ]
   },
   "skills": [
@@ -42,12 +42,12 @@
       "location": "Remoto",
       "start_date": "Nov. 3 2021",
       "end_date": "Presente",
-      "summary": "Especialista en desarrollo de plugins a medida para ERPs, ajustados a requerimientos específicos de negocio. Mi trabajo destaca por la adaptabilidad y el trabajo colaborativo en equipo. Experto en el stack .NET, Salesforce, SQL Server y JavaScript. Cuento con sólida experiencia en la creación de integraciones complejas utilizando APIs REST, parsing de EDI y GraphQL, así como en la gestión de documentación técnica para garantizar la escalabilidad del proyecto.",
+      "summary": "Formo parte de un equipo especializado que desarrolla plugins a medida para un ERP, adaptados a la lógica de negocio única de cada cliente. Este rol requiere adaptabilidad para responder a las demandas cambiantes de los clientes y mantener una comunicación constante con el equipo. Mis herramientas principales incluyen .NET Framework, Salesforce, SQL Server y JavaScript; también contribuyo a la documentación detallada de los proyectos para garantizar claridad y continuidad. He construido integraciones que usan REST APIs, EDI parsing y GraphQL APIs, incluyendo integraciones con otras bases de datos.",
       "highlights": [
         "Diseñé una librería de logging personalizada para uso interno, reduciendo los tiempos de depuración y mejorando la observabilidad de las personalizaciones del sistema",
-        "Incrementé la cobertura de código Apex al 85% mediante la implementación estratégica de pruebas unitarias (Unit Tests)",
+        "Incrementé la cobertura de código Apex al 85% mediante la implementación estratégica de unit tests",
         "Optimicé el rendimiento de consultas en SQL Server para soportar transacciones de alto volumen",
-        "Elaboré material de inducción (onboarding) y capacité a nuevos empleados, logrando un aumento en la productividad y en la calidad del código",
+        "Elaboré materiales de onboarding y capacité a nuevos empleados, logrando un aumento en la productividad y una mayor calidad del código",
         "Lideré la migración de REST a GraphQL utilizando .NET Framework, mediante el diseño e implementación de una nueva arquitectura",
         "Creé proactivamente workshops para explicar procesos técnicos y lógica de negocio compleja"
       ]
@@ -77,7 +77,7 @@
       "location": "Remoto",
       "start_date": "Junio 2021",
       "end_date": "Octubre 2021",
-      "summary": "Completé con éxito un programa intensivo de capacitación de tiempo completo en Desarrollo Web Full Stack durante cinco meses, con un enfoque principal en el desarrollo sobre Salesforce. Adquirí experiencia práctica en técnicas de desarrollo web basadas en Salesforce, incluyendo la creación de interfaces adaptables y fáciles de usar con Aura, LWC y Visualforce; la implementación de patrones de diseño y arquitectura sólidos con Apex; y la integración de sistemas de control de versiones. Asimismo, desarrollé aplicaciones completas utilizando las herramientas nativas (out-of-the-box) de Salesforce. Obtuve conocimientos valiosos en la aplicación de principios de desarrollo Ágil y logré fluidez en el uso de herramientas estándar de la industria y mejores prácticas mediante una colaboración activa con mis compañeros de equipo."
+      "summary": "Completé con éxito un programa intensivo de capacitación de tiempo completo en Desarrollo Web Full Stack durante cinco meses, con un enfoque principal en el desarrollo sobre Salesforce. Adquirí experiencia práctica en técnicas de desarrollo web basadas en Salesforce, incluyendo la creación de interfaces web adaptables y fáciles de usar con Aura, LWC y Visualforce; la implementación de patrones de diseño y arquitectura sólidos con Apex; y la integración de sistemas de control de versiones. Asimismo, desarrollé aplicaciones completas utilizando las herramientas out of the box que ofrece Salesforce. Obtuve conocimientos valiosos en la aplicación de principios de desarrollo Agile y logré fluidez en el uso de herramientas estándar de la industria y mejores prácticas mediante una colaboración activa con mis compañeros de equipo."
     }
   ]
 }

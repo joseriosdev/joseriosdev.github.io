@@ -1,10 +1,11 @@
 :root {
-  --paper-w: 215.9mm; /*A4 210mm;*/
-  --paper-h: 279.4mm; /*A4 297mm;*/
+  --paper-w: 215.9mm; /* US Letter; A4 is 210mm */
+  --paper-h: 279.4mm; /* US Letter; A4 is 297mm */
   --paper-padding: 1cm;
   --font-main: 'Crimson Pro', 'Times New Roman', Georgia, serif;
   --font-main-size: 12pt;
   --font-title: Georgia, serif;
+  --font-pretty: 'Montserrat', 'Segoe UI', Arial, sans-serif;
   --standard-margin: .8rem;
   --blue: #499fff;
 }
@@ -20,12 +21,14 @@ body {
 }
 
 @media print {
-  fab-menu {
+  fab-menu,
+  daily-verse,
+  matching-game {
     display: none;
   }
 
   @page {
     size: letter portrait;
-    margin: 0mm;
+    margin: 0;
   }
 }
