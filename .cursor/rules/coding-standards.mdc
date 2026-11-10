@@ -123,11 +123,11 @@ Plain HTML5. No templating engines.
 ```
 
 - Group `<head>` content in this order, each group opened by an uppercase comment: `<!--BASICS-->` (meta, `charset` first), `<!--OPEN GRAPH-->`, `<!--TWITTER/X-->`, `<!--TITLE-->`, `<!--ICONS AND STYLESHEETS-->`, `<!--STRUCTURED DATA-->` (`application/ld+json`).
-- Keep the structured data and the meta descriptions consistent with `data/english.json` (name, job title, location, profiles).
+- Keep the structured data and the meta descriptions consistent with `docs/data/english.json` (name, job title, location, profiles).
 
 ### Paths
 - Paths are relative to `docs/index.html`, also inside component files (the browser resolves them from the document, not the script).
-- Media comes from `../public/images/` and `../public/audio/`. Resume data comes from `../data/`.
+- Media comes from `./public/images/` and `./public/audio/`. Resume data comes from `./data/`.
 - Social preview images (`og:image`, `twitter:image`) must be absolute `https://` URLs.
 
 ### Semantics in component shells

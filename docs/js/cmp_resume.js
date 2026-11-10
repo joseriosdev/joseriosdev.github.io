@@ -210,7 +210,7 @@ class SimpleResume extends HTMLElement
 
         bubbleElmt.setAttribute('title', title);
         bubbleElmt.setAttribute('greeting', greeting);
-        bubbleElmt.setAttribute('avatar', '../public/images/profile_pic.jpg');
+        bubbleElmt.setAttribute('avatar', './public/images/profile_pic.jpg');
         bubbleElmt.setAttribute('messages', JSON.stringify(bubbleMessages));
         bubbleElmt.append(createTextElmt('h1', basics.name));
         nameElmt.append(bubbleElmt);

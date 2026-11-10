@@ -1,6 +1,6 @@
 param(
-    [string]$EnglishPath = 'data/english.json',
-    [string]$SpanishPath = 'data/spanish.json'
+    [string]$EnglishPath = 'docs/data/english.json',
+    [string]$SpanishPath = 'docs/data/spanish.json'
 )
 
 $verbatimPathPatterns = @(

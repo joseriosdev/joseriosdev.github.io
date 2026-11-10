@@ -22,9 +22,9 @@ It is optimized for **[Applicant Tracking Systems](https://en.wikipedia.org/wiki
 - **State Management:** Minimun.
 
 ## Directory Structure
-- `docs/` - Contains all routing, page components, and API routes. Even the index.
-- `data/` - Json files that holds the data of the CVs in both Spanish and English.
-- `public/` - All media files like audios and images.
+- `docs/` - The published site (GitHub Pages serves this folder). Contains all routing, page components, and API routes. Even the index.
+- `docs/data/` - Json files that holds the data of the CVs in both Spanish and English.
+- `docs/public/` - All media files like audios and images.
 
 ### Language
 - Spanish and English only.

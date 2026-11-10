@@ -2,7 +2,7 @@ export default class ApiCalls
 {
     static async getResumeData(isSpanish)
     {
-        const response = await fetch(`../data/${isSpanish ? 'spanish' : 'english'}.json`);
+        const response = await fetch(`./data/${isSpanish ? 'spanish' : 'english'}.json`);
         if (!response.ok) throw new Error(`HTTP ${response.status} loading resume data`);
         return await response.json();
     }

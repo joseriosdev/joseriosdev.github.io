@@ -38,45 +38,45 @@ Coding conventions are mandatory and live in [`.cursor/rules/coding-standards.md
 │   └── skills/resumes-lang-validation/
 │       ├── SKILL.md               "translate" skill: syncs spanish.json from english.json
 │       └── scripts/compare-keys.ps1  Structure check between both JSON files
-├── docs/
-│   ├── index.html                 The only page of the app (entry point)
-│   ├── main.css                   Global styles and design tokens
-│   ├── js/
-│   │   ├── main.js                Router: reads URL, mounts elements
-│   │   ├── constantKeys.js        Shared string keys (KEYS)
-│   │   ├── apiCalls.js            All HTTP calls (ApiCalls)
-│   │   ├── cmp_resume.js          <simple-resume>  ATS version
-│   │   ├── cmp_prettyResume.js    <pretty-resume>  pretty version
-│   │   ├── cmp_floatingMenu.js    <fab-menu>       floating action menu
-│   │   ├── cmp_dialogBubble.js    <dialog-bubble>  hover tooltip with messages
-│   │   ├── cmp_dailyVerse.js      <daily-verse>    daily Bible verse modal
-│   │   └── cmp_matchingGame.js    <matching-game>  hidden matching pairs game
-│   └── app_legacy/                Older portfolio site; independent, not part of this architecture
-├── data/
-│   ├── english.json               Resume content, source of truth
-│   └── spanish.json               Spanish translation, same structure
-└── public/
-    ├── audio/btn-click.mp3        Menu click sound
-    └── images/
-        ├── me.ico                 Favicon
-        ├── profile_pic.jpg        Profile photo (dialog bubble avatar and pretty version photo)
-        └── game/                  12 tech logos for the matching game (unity.png is the Cursor logo)
+└── docs/                          The published site (GitHub Pages source folder)
+    ├── index.html                 The only page of the app (entry point)
+    ├── main.css                   Global styles and design tokens
+    ├── js/
+    │   ├── main.js                Router: reads URL, mounts elements
+    │   ├── constantKeys.js        Shared string keys (KEYS)
+    │   ├── apiCalls.js            All HTTP calls (ApiCalls)
+    │   ├── cmp_resume.js          <simple-resume>  ATS version
+    │   ├── cmp_prettyResume.js    <pretty-resume>  pretty version
+    │   ├── cmp_floatingMenu.js    <fab-menu>       floating action menu
+    │   ├── cmp_dialogBubble.js    <dialog-bubble>  hover tooltip with messages
+    │   ├── cmp_dailyVerse.js      <daily-verse>    daily Bible verse modal
+    │   └── cmp_matchingGame.js    <matching-game>  hidden matching pairs game
+    ├── data/
+    │   ├── english.json           Resume content, source of truth
+    │   └── spanish.json           Spanish translation, same structure
+    ├── public/
+    │   ├── audio/btn-click.mp3    Menu click sound
+    │   └── images/
+    │       ├── me.ico             Favicon
+    │       ├── profile_pic.jpg    Profile photo (dialog bubble avatar and pretty version photo)
+    │       └── game/              12 tech logos for the matching game (unity.png is the Cursor logo)
+    └── app_legacy/                Older portfolio site; independent, not part of this architecture
 ```
 
 ## 4. Running locally
 
-The site must be served over HTTP from the **repository root** (ES modules and `fetch` do not work from `file://`). All runtime paths go up one level from `docs/` (`../data/`, `../public/`).
+The site must be served over HTTP with **`docs/` as the site root** (ES modules and `fetch` do not work from `file://`). All runtime paths are relative to `docs/index.html` (`./data/`, `./public/`).
 
-Any static server works, for example `npx serve .` or `python -m http.server` from the repo root, then open:
+Any static server works, for example `npx serve docs` or `python -m http.server -d docs` from the repo root, then open:
 
 | URL | Result |
 |---|---|
-| `/docs/index.html` | ATS version, English |
-| `/docs/index.html?lang=es` | ATS version, Spanish |
-| `/docs/index.html?view=pretty` | Pretty version, English |
-| `/docs/index.html?view=pretty&lang=es` | Pretty version, Spanish |
+| `/` | ATS version, English |
+| `/?lang=es` | ATS version, Spanish |
+| `/?view=pretty` | Pretty version, English |
+| `/?view=pretty&lang=es` | Pretty version, Spanish |
 
-Production is GitHub Pages at `https://joseriosdev.github.io/`. Social preview images in `index.html` assume the repo root is the site root (`https://joseriosdev.github.io/public/images/profile_pic.jpg`).
+Production is GitHub Pages at `https://joseriosdev.github.io/`, published from the `/docs` folder (repo Settings → Pages → Branch `main`, folder `/docs`). Social preview images in `index.html` assume `docs/` is the site root (`https://joseriosdev.github.io/public/images/profile_pic.jpg`), and the legacy site lives at `https://joseriosdev.github.io/app_legacy/`.
 
 ## 5. Boot sequence and routing
 
@@ -139,12 +139,12 @@ The theme and the two secret steps persist across visits; the language always co
 
 | Method | Request | Returns |
 |---|---|---|
-| `getResumeData(isSpanish)` | `GET ../data/spanish.json` or `../data/english.json` | Parsed resume JSON; throws on non-2xx |
+| `getResumeData(isSpanish)` | `GET ./data/spanish.json` or `./data/english.json` | Parsed resume JSON; throws on non-2xx |
 | `getDailyVerse()` | `GET https://beta.ourmanna.com/api/v1/get?format=json&order=daily` | `verse.details`: `{ text, reference, version, verseurl }` (e.g. `"Ephesians 2:19"`, `"NIV"`); throws on non-2xx |
 | `getLocation()` | `GET https://ipapi.co/json/` | `{ city, country, timezone, ... }` |
 | `getWeather(city, country)` | `GET https://api.openweathermap.org/data/2.5/weather?q={city},{country}&appid=...` | Weather JSON with `main.feels_like` converted from Kelvin to Celsius |
 
-## 7. Data model (`data/*.json`)
+## 7. Data model (`docs/data/*.json`)
 
 `english.json` is the source of truth; `spanish.json` must have the exact same keys, order, and array lengths (enforced by the `translate` skill, see section 12).
 
@@ -250,7 +250,7 @@ All components follow the same lifecycle: `constructor` attaches an open shadow 
 
 - **Attributes:** `menu-lang`, `menu-view`.
 - **Public methods** (called by `main.js` before mounting): `setMenuView(view)`, `setMenuLanguage(lang)`.
-- **Look:** fixed bottom-right (`1.875rem` from edges). A round purple main button with a house icon rotates 45° and turns red when open; sub-buttons slide up with staggered delays. Each sub-button shows a tooltip from its `data-label` (via `::before`). Every click plays `public/audio/btn-click.mp3`.
+- **Look:** fixed bottom-right (`1.875rem` from edges). A round purple main button with a house icon rotates 45° and turns red when open; sub-buttons slide up with staggered delays. Each sub-button shows a tooltip from its `data-label` (via `::before`). Every click plays `docs/public/audio/btn-click.mp3`.
 - **Buttons** (stacked bottom to top):
 
 | Button | id | Action |
@@ -293,7 +293,7 @@ All components follow the same lifecycle: `constructor` attaches an open shadow 
 - **Attributes:** `game-lang` (`en` / `es`).
 - **Public methods:** `open()` (called on `game-open`; builds a new board on the first open or when the previous game was won, otherwise resumes), `close()`.
 - **Shell:** native `<dialog>` with `showModal()` (Esc, × button, or backdrop click close it). Padding lives on an inner `.game-content` so only true backdrop clicks close it. Contents: title ("Tech stack pairs" / "Pares del tech stack"), stats row (moves, pairs `x / 12`, timer, Restart button), the board, and a win panel overlay.
-- **Deck:** `TECH_LOGOS` holds 12 `{ name, file }` entries loaded from `../public/images/game/`: Salesforce, JavaScript, C#, Git, Cursor (`unity.png`), REST APIs (`api.jpg`), React, Sass, HTML, Claude, Python, SQL Server. Each is duplicated and the 24 cards are shuffled with Fisher-Yates.
+- **Deck:** `TECH_LOGOS` holds 12 `{ name, file }` entries loaded from `./public/images/game/`: Salesforce, JavaScript, C#, Git, Cursor (`unity.png`), REST APIs (`api.jpg`), React, Sass, HTML, Claude, Python, SQL Server. Each is duplicated and the 24 cards are shuffled with Fisher-Yates.
 - **Cards:** `<button>` elements with a 3D flip (`perspective`, `preserve-3d`, `backface-visibility`). Back: purple gradient with `</>`; face: white tile with the logo. `aria-label` is "Card n" while hidden and the tech name once revealed.
 - **Rules:** the timer starts on the first flip. Two flipped cards count as one move. A match gets a green ring and both buttons are disabled; a miss locks the board for 800 ms, then flips both back. After 12 pairs the timer stops and the win panel shows moves and time, with "Play again" focused.
 - **Responsive:** 6 columns × 4 rows by default; 4 × 6 on portrait screens up to `48rem`. The board width is capped by viewport height (`min(100%, (100dvh - 11rem) * 1.5)`, or `* 2 / 3` in portrait) so all 24 square cards fit without scrolling. Gaps and the `</>` size use `clamp()`. `prefers-reduced-motion` disables the flip and match animations.
@@ -326,7 +326,7 @@ All components follow the same lifecycle: `constructor` attaches an open shadow 
 
 - All resume text is real DOM text in reading order: no text in images, pseudo-elements, or icon-only elements.
 - Semantic structure: one `<main>`, a `<section>` per block, `<article>` per entry, headings `h1` (name) → `h2` (sections) → `h3` (entries) → `h4` (details), highlights in `<ul>`.
-- Social and preview metadata in `<head>`: description, Open Graph, Twitter card, and `schema.org/Person` JSON-LD kept consistent with `data/english.json`.
+- Social and preview metadata in `<head>`: description, Open Graph, Twitter card, and `schema.org/Person` JSON-LD kept consistent with `docs/data/english.json`.
 
 ## 12. AI agent tooling
 
@@ -340,7 +340,7 @@ To recreate the site from nothing, in this order:
 1. Create the directory structure from section 3 and the two JSON files with the schema from section 7.
 2. Write `main.css` with the tokens and print rules from section 9.
 3. Write `constantKeys.js` and `apiCalls.js` (section 6).
-4. Build `<dialog-bubble>`, then `<simple-resume>` (sections 8.4, 8.1). Verify `/docs/index.html` and `?lang=es`.
+4. Build `<dialog-bubble>`, then `<simple-resume>` (sections 8.4, 8.1). Verify `/` and `/?lang=es` (served from `docs/`).
 5. Build `<pretty-resume>` with the layout, themes, and print rules from section 8.2. Verify `?view=pretty`.
 6. Build `<daily-verse>` (section 8.5) and `<matching-game>` (section 8.6).
 7. Build `<fab-menu>` (section 8.3) and `main.js` (section 5). Verify every menu button, theme persistence after reload, the verse modal on desktop and phone widths, the game unlock (clear `localStorage`, open the verse, read all bubble messages, 🎮 appears) and the board in landscape and portrait, and print preview (Letter, margins none) in both versions and both languages.

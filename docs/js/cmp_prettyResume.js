@@ -320,7 +320,7 @@ class PrettyResume extends HTMLElement
         githubElmt.textContent = basics.profiles.github.replace('https://', '');
         githubElmt.href = basics.profiles.github;
 
-        photoElmt.src = '../public/images/profile_pic.jpg';
+        photoElmt.src = './public/images/profile_pic.jpg';
         photoElmt.alt = basics.name;
     }
 

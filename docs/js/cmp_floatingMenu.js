@@ -169,7 +169,7 @@ class FloatingMenu extends HTMLElement
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.adoptedStyleSheets = [sheet];
         this.isOpen = false;
-        this.audioClick = new Audio('../public/audio/btn-click.mp3');
+        this.audioClick = new Audio('./public/audio/btn-click.mp3');
         this.audioClick.load();
         this.shadowRoot.innerHTML = `
           <div class="menu-container">

@@ -1,11 +1,11 @@
 ---
 name: resumes-lang-validation
-description: Compares data/english.json (the source of truth) with data/spanish.json and translates the English resume content into Spanish, keeping technical terms in English. Use when the user says "translate", or asks to compare, sync, or translate the resume JSON files.
+description: Compares docs/data/english.json (the source of truth) with docs/data/spanish.json and translates the English resume content into Spanish, keeping technical terms in English. Use when the user says "translate", or asks to compare, sync, or translate the resume JSON files.
 ---
 
 # Resume Language Validation ("translate")
 
-`data/english.json` is the source of truth. `data/spanish.json` must be its faithful Spanish translation with the exact same structure. Never edit `data/english.json`.
+`docs/data/english.json` is the source of truth. `docs/data/spanish.json` must be its faithful Spanish translation with the exact same structure. Never edit `docs/data/english.json`.
 
 ## Workflow
 

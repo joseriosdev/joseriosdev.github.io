@@ -1,6 +1,6 @@
 import KEYS from './constantKeys.js';
 
-const LOGOS_PATH = '../public/images/game/';
+const LOGOS_PATH = './public/images/game/';
 const FLIP_BACK_DELAY_MS = 800;
 const TECH_LOGOS = Object.freeze([
     { name: 'Salesforce', file: 'salesforce.png' },
@@ -288,7 +288,7 @@ class MatchingGame extends HTMLElement
         this.matchedPairs = 0;
         this.startTime = null;
         this.timerId = null;
-        this.audioClick = new Audio('../public/audio/btn-click.mp3');
+        this.audioClick = new Audio('./public/audio/btn-click.mp3');
         this.audioClick.load();
         this.shadowRoot.innerHTML = `
           <dialog id="game-dialog" aria-labelledby="game-title">
